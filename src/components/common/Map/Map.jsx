@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Map, GoogleApiWrapper } from "google-maps-react";
+import config from "../../../config";
 
 export class MapContainer extends Component {
   render() {
@@ -17,5 +18,5 @@ export class MapContainer extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDMHZWZAcvwXz0401rV_TK7cus3gy2F8Z4"
+  apiKey: config.googleApiKey
 })(MapContainer);
