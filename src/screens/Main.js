@@ -6,22 +6,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+//import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+//import ListItemIcon from '@material-ui/core/ListItemIcon';
+//import ListItemText from '@material-ui/core/ListItemText';
+//import InboxIcon from '@material-ui/icons/MoveToInbox';
+//import MailIcon from '@material-ui/icons/Mail';
 import Avatar from '@material-ui/core/Avatar';
 import Profesor from '../components/Profesor';
 import Fab from '@material-ui/core/Fab';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import MoreIcon from '@material-ui/icons/MoreVert';
-import IconButton from '@material-ui/core/IconButton';
+//import MoreIcon from '@material-ui/icons/MoreVert';
+//import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Map from '../components/common/Map/Map';
 
 const drawerWidth = 280;
 
@@ -47,7 +48,7 @@ export default function ClippedDrawer() {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar className="toolbar">
           <Typography variant="h6" noWrap className={classes.text}>
-            Panel de administración
+            Administration Panel
           </Typography>
           <Button onClick={handleMenu}>
             <Avatar button alt="Remy Sharp" src="http://2.bp.blogspot.com/-y6gRRHzE1aI/UkV3Do-lcaI/AAAAAAAAWUc/_5BwPJChM0Y/s1600/Wallpaper+Pelicula+-+Spiderman+%25284%2529.jpg"/>
@@ -93,34 +94,12 @@ export default function ClippedDrawer() {
 
       <Fab color="#D7D7D7" variant="extended" aria-label="delete" className={classes.fab}>
         <FontAwesomeIcon icon={faUserPlus} className="icon" className={classes.extendedIcon}/>
-        Agregar Profesor
+        Add Professor
       </Fab>
 
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Rhoncus dolor purus non enim praesent elementum
-          facilisis leo vel. Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-          gravida rutrum quisque non tellus. Convallis convallis tellus id interdum velit laoreet id
-          donec ultrices. Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-          Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo quis
-          imperdiet massa tincidunt. Cras tincidunt lobortis feugiat vivamus at augue. At augue eget
-          arcu dictum varius duis at consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem
-          donec massa sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper eget nulla
-          facilisi etiam dignissim diam. Pulvinar elementum integer enim neque volutpat ac
-          tincidunt. Ornare suspendisse sed nisi lacus sed viverra tellus. Purus sit amet volutpat
-          consequat mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis risus sed
-          vulputate odio. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. In
-          hendrerit gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem et
-          tortor. Habitant morbi tristique senectus et. Adipiscing elit duis tristique sollicitudin
-          nibh sit. Ornare aenean euismod elementum nisi quis eleifend. Commodo viverra maecenas
-          accumsan lacus vel facilisis. Nulla posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
+        <Map></Map>
       </main>
     </div>
   );
@@ -146,7 +125,6 @@ const useStyles = makeStyles(theme => ({
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
     },
     toolbar: theme.mixins.toolbar,
     fab: {
