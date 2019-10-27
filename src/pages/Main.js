@@ -1,19 +1,19 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+/* import React from 'react';
+
+
 import AppBar from '@material-ui/core/AppBar';
-import CssBaseline from '@material-ui/core/CssBaseline';
+
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
+
 import Typography from '@material-ui/core/Typography';
 //import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
+
 //import ListItemIcon from '@material-ui/core/ListItemIcon';
 //import ListItemText from '@material-ui/core/ListItemText';
 //import InboxIcon from '@material-ui/icons/MoveToInbox';
 //import MailIcon from '@material-ui/icons/Mail';
 import Avatar from '@material-ui/core/Avatar';
-import Profesor from '../components/Profesor';
+
 import Fab from '@material-ui/core/Fab';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
@@ -24,7 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Map from '../components/Map/Map';
 
-const drawerWidth = 280;
+
 
 
 
@@ -72,22 +72,7 @@ export default function ClippedDrawer() {
               </Menu>
         </Toolbar>
       </AppBar>
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{
-          paper: classes.drawerPaper,
-        }}>
-        <div className={classes.toolbar} />
-        <List>
-            <ListItem>
-                <Profesor/>
-            </ListItem>
-            <ListItem>
-                <Profesor/>
-            </ListItem>
-        </List>
-      </Drawer>
+     
       <Fab color="#D7D7D7" variant="extended" aria-label="delete" className={classes.fab}>
         <FontAwesomeIcon icon={faUserPlus} className="icon" className={classes.extendedIcon}/>
         Add Professor
@@ -112,16 +97,6 @@ const useStyles = makeStyles(theme => ({
     text: {
         color: '#707070'
     },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    content: {
-      flexGrow: 1,
-    },
     toolbar: theme.mixins.toolbar,
     fab: {
         margin: theme.spacing(1),   
@@ -133,4 +108,4 @@ const useStyles = makeStyles(theme => ({
       extendedIcon: {
         marginRight: theme.spacing(1),
       },
-  }));
+  })); */
