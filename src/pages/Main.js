@@ -22,7 +22,7 @@ import { faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import Button from '@material-ui/core/Button';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import Map from '../components/common/Map/Map';
+import Map from '../components/Map/Map';
 
 const drawerWidth = 280;
 
@@ -53,7 +53,6 @@ export default function ClippedDrawer() {
           <Button onClick={handleMenu}>
             <Avatar button alt="Remy Sharp" src="http://2.bp.blogspot.com/-y6gRRHzE1aI/UkV3Do-lcaI/AAAAAAAAWUc/_5BwPJChM0Y/s1600/Wallpaper+Pelicula+-+Spiderman+%25284%2529.jpg"/>
           </Button>
-          
             <Menu
                 id="menu-appbar"
                 anchorEl={anchorEl}
@@ -78,10 +77,8 @@ export default function ClippedDrawer() {
         variant="permanent"
         classes={{
           paper: classes.drawerPaper,
-        }}
-      >
+        }}>
         <div className={classes.toolbar} />
-        
         <List>
             <ListItem>
                 <Profesor/>
@@ -91,7 +88,6 @@ export default function ClippedDrawer() {
             </ListItem>
         </List>
       </Drawer>
-
       <Fab color="#D7D7D7" variant="extended" aria-label="delete" className={classes.fab}>
         <FontAwesomeIcon icon={faUserPlus} className="icon" className={classes.extendedIcon}/>
         Add Professor
