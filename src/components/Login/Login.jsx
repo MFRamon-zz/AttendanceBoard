@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import Sidebar from "../Sidebar/Sidebar";
 
 export class Login extends Component {
     render() {
         return (
-            <p>you're in Login Component</p>
+            <Sidebar></Sidebar>
         );
     }
 }
