@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
+import Sidebar from '../../components/Sidebar/Sidebar'
+import Header from '../../components/Header/Header'
 
 class Dashboard extends Component {
     render() {
         return (
-            <div>
-                <h1>Dashboard</h1>
-            </div>
+            <Fragment>
+
+                <Header/>
+                <Sidebar/>
+
+            </Fragment>
         );
     }
 }

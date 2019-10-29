@@ -6,14 +6,16 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Profesor from '../Profesor';
 import { withStyles } from "@material-ui/styles";
+import Header from '../Header/Header'
 
 
 const drawerWidth = 280;
 
-function Sidebar(props) {
-    const { classes }  = props;
+function Sidebar() {
+    const classes = useStyles();
         return (
             <div className={classes.root}>
+                
                 <CssBaseline />
                 <Drawer
                     className={classes.drawer}
@@ -35,7 +37,10 @@ function Sidebar(props) {
     );
 }
 
-export default withStyles({
+export default Sidebar;
+
+const useStyles = makeStyles(theme => (
+{
     drawer: {
         width: drawerWidth,
         flexShrink: 0
@@ -45,5 +50,9 @@ export default withStyles({
     },
     content: {
         flexGrow: 1,
-    }
-})(Sidebar)
+    },
+    root: {
+        display: 'flex',
+    },
+    toolbar: theme.mixins.toolbar,
+}));
