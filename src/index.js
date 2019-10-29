@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Professor from './components/Professor/Professor';
+import MapContainer from './components/Map/Map'
 
 ReactDOM.render(<App/>, document.getElementById('root'));
 
