@@ -1,12 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
-import Profesor from '../Profesor';
 import { withStyles } from "@material-ui/styles";
-
+import Profesor from '../Profesor';
 
 const drawerWidth = 280;
 
