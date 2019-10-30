@@ -12,7 +12,7 @@ const FloatingActionButton = () => {
         <Fragment>
 
             <Fab color="#D7D7D7" variant="extended" aria-label="delete" className={classes.fab}>
-                <FontAwesomeIcon icon={faUserPlus} className="icon" className={classes.extendedIcon}/>
+                <FontAwesomeIcon icon={faUserPlus} className="icon-login" className={classes.extendedIcon}/>
                 Add Professor
             </Fab>
 
