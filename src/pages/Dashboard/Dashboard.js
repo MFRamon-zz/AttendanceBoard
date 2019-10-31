@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import Sidebar from '../../components/Sidebar/Sidebar'
 import Header from '../../components/Header/Header'
+import Map from '../../components/Map/Map'
+import FloatingActionButton from '../../components/FloatingActionButton'
 
 class Dashboard extends Component {
     render() {
@@ -9,6 +11,8 @@ class Dashboard extends Component {
 
                 <Header/>
                 <Sidebar/>
+                <Map/>
+                <FloatingActionButton/>
 
             </Fragment>
         );
