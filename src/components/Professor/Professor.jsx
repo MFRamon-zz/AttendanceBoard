@@ -9,7 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const Profesor = () => {
+const Profesor = (props) => {
     return (
         <Fragment>
             <Card className="card-container">
