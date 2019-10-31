@@ -8,8 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 
-const Header = () => {
-
+const Header = (props) => {
+ 
     const classes = useStyles();
 
     const handleMenu = event => {
@@ -22,6 +22,8 @@ const Header = () => {
     
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
+   
 
     return (
         <Fragment>
