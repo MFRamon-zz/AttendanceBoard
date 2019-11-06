@@ -8,12 +8,10 @@ class Dashboard extends Component {
     render() {
         return (
             <Fragment>
-
                 <Header/>
                 <Sidebar/>
                 <Map/>
                 <FloatingActionButton/>
-
             </Fragment>
         );
     }
