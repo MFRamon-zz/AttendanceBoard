@@ -4,13 +4,12 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
-import Profesor from "../Profesor";
 import {
   getClassrooms,
   getGeofences,
-  getClassroomsNames
-} from "../../controllers/classroomController";
-import { updateGeofence } from "../../controllers/geofenceController";
+  //getClassroomsNames
+} from "../../helpers/querys";
+import { updateGeofence } from "../../helpers/querys";
 import Profesor from '../Professor/Professor';
 import Header from '../Header/Header'
 
@@ -51,7 +50,7 @@ const Sidebar = () => {
             <input
               type="button"
               value="Click"
-              onClick={() => getClassroomsNames()}
+              //onClick={() => getClassroomsNames()}
             />
           </ListItem>
           <ListItem>

@@ -1,11 +1,11 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
-import config from "../config";
+//import config from "../config";
 
-firebase.initializeApp(config.firebaseConfig);
+//firebase.initializeApp(config.firebaseConfig);
 
-let db = firebase.firestore();
-
+//let db = firebase.firestore();
+let db;
 /**
  * Gets list of geofences
  */

@@ -5,21 +5,25 @@ import Login from './components/Login/Login'
 import PrivateRoute from './components/privateRoute'
 import { AuthProvider } from './components/auth'
 
-const App = () => {
-    constructor() {
+class App extends Component {
+    
+  constructor() {
     super();
-    firebase.initializeApp(config.firebaseConfig);
+  //   firebase.initializeApp(config.firebaseConfig);
   }
-  return (
-    <AuthProvider>
-      <Router>
-        <div>
-          <PrivateRoute exact path="/" component={Dashboard} />
-          <Route exact path="/login" component={Login} />
-        </div>
-      </Router>
-    </AuthProvider>
-  );
+  
+  render(){
+    return (
+      <AuthProvider>
+        <Router>
+          <div>
+            <PrivateRoute exact path="/" component={Dashboard} />
+            <Route exact path="/login" component={Login} />
+          </div>
+        </Router>
+      </AuthProvider>
+    );
+  }
 };
 
 
