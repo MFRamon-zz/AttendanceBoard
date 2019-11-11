@@ -7,23 +7,16 @@ import Avatar from '@material-ui/core/Avatar';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { makeStyles } from '@material-ui/core/styles';
+import app from "../../config/firebaseConfig";
 
 const Header = (props) => {
- 
     const classes = useStyles();
-
     const handleMenu = event => {
         setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
     };
     
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
-
-   
 
     return (
         <Fragment>
@@ -49,9 +42,10 @@ const Header = (props) => {
                             horizontal: 'right',
                             }}
                             open={open}
-                            onClose={handleClose}
+                            // onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>Log out</MenuItem>
+                            {/**Object for deauthenticating the user**/}
+                            <MenuItem onClick={() => app.auth().signOut()}>Log out</MenuItem>
                         </Menu>
                     </Toolbar>
                 </AppBar>
