@@ -66,3 +66,47 @@ code {
 .dots{
   color: #707070;
 }
+.container-flex{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100vh;
+  width: 100%;
+  background-color: #F5F5F5;
+}
+.lottie-parent{
+  height: 500px;
+  width: 500px;
+}
+.lottie{
+  margin-left: -50px!important;
+  padding: 0;
+}
+.child{
+  background-color: teal;
+  height: 500px;
+  width: 500px;
+}
+.paper{
+  height: 600px;
+  width: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0px 50px;
+}
+.avatar{
+  background-color: #303F9F!important;
+  height: 80px!important;
+  width: 80px!important;
+  margin-bottom: 50px;
+}
+.icon-login{
+  color: white;
+  font-size: 30px;
+}
+.btn-login{
+  margin-top: 30px!important;
+  margin-bottom: 10px!important;
+}
