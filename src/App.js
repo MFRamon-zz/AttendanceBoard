@@ -6,6 +6,10 @@ import PrivateRoute from './components/privateRoute'
 import { AuthProvider } from './components/auth'
 
 const App = () => {
+    constructor() {
+    super();
+    firebase.initializeApp(config.firebaseConfig);
+  }
   return (
     <AuthProvider>
       <Router>
@@ -19,4 +23,5 @@ const App = () => {
 };
 
 
+  
 export default App;
