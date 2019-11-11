@@ -9,7 +9,6 @@ class App extends Component {
     
   constructor() {
     super();
-  //   firebase.initializeApp(config.firebaseConfig);
   }
   
   render(){
@@ -25,9 +24,5 @@ class App extends Component {
     );
   }
 };
-
-
-
-
 
 export default App;
