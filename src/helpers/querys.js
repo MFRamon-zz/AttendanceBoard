@@ -1,18 +1,10 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
+import config from "../config";
 
-firebase.initializeApp({
-  apiKey: "AIzaSyAyq72XN4yce1c23BDFd2dUKe8RQ3LrAzE",
-  authDomain: "ipuerk-dev.firebaseapp.com",
-  projectId: "ipuerk-dev"
-});
+firebase.initializeApp(config.firebaseConfig);
 
 let db = firebase.firestore();
-
-//TODO
-const getActiveTeachers = () => {
-  const actualHour = 0;
-};
 
 /**
  * Gets list of geofences
@@ -60,16 +52,51 @@ const setAttendance = attendace => {
     .then(snapshot => console.log("Attendace: " + snapshot));
 };
 
-//TODO: Fix
 /**
- * Updating a geofence by getting the reference of the geofences collection and
+ * Updating a geofence by getting the reference of the geofence document attached to the given id
+ * and replacing the info with the given object.
  *
  * @param {object} geofence Javascript object with the geofence params
  */
-const updateGeofence = geofence => {
-  db.collection("geofences")
-    .add(geofence)
-    .then(snapshot => console.log("Geofence updated: " + snapshot));
+const updateGeofence = async (id, geofence) => {
+  await db
+    .collection("geofences")
+    .doc(id)
+    .set(geofence)
+    .then(snapshot => console.log(snapshot));
+  console.log("entro");
+};
+
+/**
+ * Get the list of the active teachers depending on the current hour.
+ *
+ * @param {number} currentHour The current hour in 24 hours format
+ */
+const getActiveTeachers = async currentHour => {
+  const query = db.collection("courses");
+  query.where("schedule.startTime", "<=", currentHour);
+  query.where("schedule.endTime", ">=", currentHour);
+
+  const teacherRef = await query
+    .get()
+    .then(snapshot => snapshot.docs.map(doc => doc.data().teacher));
+  const listTeachers = await db
+    .collection("teacher")
+    .get()
+    .then(snapshot => snapshot.docs);
+
+  const teacher = teacherRef.map(ref =>
+    listTeachers
+      .find(item => {
+        if (item.ref === ref);
+        {
+          return item;
+        }
+      })
+      .data()
+  );
+
+  return teacher;
 };
 
 export {
@@ -77,5 +104,6 @@ export {
   getClassrooms,
   newTeacher,
   setAttendance,
-  updateGeofence
+  updateGeofence,
+  getActiveTeachers
 };
