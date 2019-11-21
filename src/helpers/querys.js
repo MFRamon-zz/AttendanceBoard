@@ -1,10 +1,8 @@
-import firebase from "firebase/app";
 import "firebase/firestore";
-//import config from "../config";
+import app from "../config/firebaseConfig";
 
+let db = app.firestore();
 
-//let db = firebase.firestore();
-let db;
 /**
  * Gets list of geofences
  */
@@ -26,7 +24,6 @@ const getClassrooms = async () => {
     .then(snapshot => snapshot.docs.map(doc => doc.data().name));
 };
 
-//TODO: Position should change object type
 /**
  * Inserting a new teacher by getting the reference of the teacher collection and
  * adding a new document with the information of the given param.
@@ -39,6 +36,7 @@ const newTeacher = teacher => {
     .then(snapshot => console.log("Bien: " + snapshot));
 };
 
+//TODO: Get doc id and set it to the corresponding teacher
 /**
  * Inserting the attendace info by getting the reference of the attendance collection
  * and adding a new document with the information of the given param.
@@ -98,11 +96,37 @@ const getActiveTeachers = async currentHour => {
   return teacher;
 };
 
+/**
+ * Adds a new course in the database.
+ *
+ * @param {object} course Javascript object with course information
+ */
+const addCourses = async course => {
+  await db
+    .collection("courses")
+    .add(course)
+    .then(snapshot => console.log(snapshot));
+};
+
+/**
+ * Creates a new classroom in the database.
+ *
+ * @param {object} classroom Javascript object with classroom information
+ */
+const newClassroom = async classroom => {
+  await db
+    .collection("classrooms")
+    .add(classroom)
+    .then(snapshot => console.log(snapshot));
+};
+
 export {
   getGeofences,
   getClassrooms,
   newTeacher,
   setAttendance,
   updateGeofence,
-  getActiveTeachers
+  getActiveTeachers,
+  addCourses,
+  newClassroom
 };
