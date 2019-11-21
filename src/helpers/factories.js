@@ -5,7 +5,7 @@ const newTeacher = (name, role, uid) => {
   return {
     name,
     role,
-    position: firebase.firestore.GeoPoint(0, 0),
+    position: new firebase.firestore.GeoPoint(90, 180),
     uid,
     attendance: [],
     active: false
@@ -19,10 +19,10 @@ const newAttendance = attendance => {
   };
 };
 
-const newClassroom = name => {
+const newClassroom = (name, courses) => {
   return {
     name,
-    courses: []
+    courses
   };
 };
 
@@ -34,15 +34,27 @@ const newGeofence = (classroom, lat, lng, length) => {
   };
 };
 
-const newCourse = (title, teacherRef, startTime, endTime) => {
+const newCourse = (title, teacherRef, schedule) => {
   return {
     title,
-    schedule: {
-      endTime,
-      startTime
-    },
-    teacher: firebase.firestore.DocumentReference(`/teacher/${teacherRef}`)
+    schedule,
+    teacher: firebase.firestore().doc(`/teacher/${teacherRef}`)
   };
 };
 
-export { newTeacher, newAttendance, newClassroom, newGeofence, newCourse };
+const newSchedule = (day, startTime, endTime) => {
+  return {
+    day,
+    startTime,
+    endTime
+  };
+};
+
+export {
+  newTeacher,
+  newAttendance,
+  newClassroom,
+  newGeofence,
+  newCourse,
+  newSchedule
+};
