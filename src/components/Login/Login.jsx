@@ -70,13 +70,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-// Create a new theme using Nunito Sans
-const theme = createMuiTheme({
-  typography: {
-    fontFamily: "Montserrat, Roboto, sans-serif"
-  }
-});
-
 //Object for styling the component
 const defaultOptions = {
   loop: true,
@@ -87,86 +80,99 @@ const defaultOptions = {
   }
 };
 
-const handleLogin =(
-  async event => {
-    event.preventDefault();
-    const { email, password } = event.target.elements;
-    try {
-      await app
-        .auth()
-        .signInWithEmailAndPassword(email.value, password.value);
-    } catch (error) {
-      alert(error);
-    }
-  }
-);
 
-export default function Login() {
+
+const Login = ({ history }) => {
   const classes = useStyles();
   const [dense, setDense] = React.useState(false);
 
+  const handleLogin = useCallback(
+    async event => {
+      event.preventDefault();
+      const { email, password } = event.target.elements;
+      console.log(email)
+      console.log(password)
+      try {
+        await app
+          .auth()
+          .signInWithEmailAndPassword(email.value, password.value);
+        history.push("/");
+      } catch (error) {
+        alert(error);
+      }
+    },
+    [history]
+  );
+
+  // Create a new theme using Nunito Sans
+  const theme = createMuiTheme({
+    typography: {
+      fontFamily: "Montserrat, Roboto, sans-serif"
+    }
+  });
+
   return (
-    
-      <Grid container component="main" className={classes.root}>
-        <Grid item xs={false} sm={8} md={6} style={{ backgroundColor: "#6200ea" }} className={classes.leftDiv}>
-          <Typography align="left" alignItems="center" variant="h1" className={classes.title} style={{ margin: theme.spacing(7, 0, 2) }}>Attendance </Typography>
-          <Typography align="left" alignItems="center" variant="h1" className={classes.title} style={{ paddingBottom: 40 }}>Board</Typography>
-          <Typography align="left" alignItems="center" variant="h6" className={classes.credits} style={{ paddingBottom: 20 }}>Crafted and Built by:</Typography>
+    <Grid container component="main" className={classes.root}>
+      <Grid item xs={false} sm={8} md={6} style={{ backgroundColor: "#6200ea" }} className={classes.leftDiv}>
+        <Typography align="left" alignItems="center" variant="h1" className={classes.title} style={{ margin: theme.spacing(7, 0, 2) }}>Attendance </Typography>
+        <Typography align="left" alignItems="center" variant="h1" className={classes.title} style={{ paddingBottom: 40 }}>Board</Typography>
+        <Typography align="left" alignItems="center" variant="h6" className={classes.credits} style={{ paddingBottom: 20 }}>Crafted and Built by:</Typography>
 
-          <div className={classes.demo}>
-            <List alignItems='flex-start' dense={dense}>
+        <div className={classes.demo}>
+          <List alignItems='flex-start' dense={dense}>
 
-              <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-                <ListItemAvatar>
-                  <Avatar src={AvatarRamon}>A</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Avinia Luna Juan Carlos" />
-              </ListItem>
+            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
+              <ListItemAvatar>
+                <Avatar src={AvatarRamon}>A</Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Avinia Luna Juan Carlos" />
+            </ListItem>
 
-              <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-                <ListItemAvatar>
-                  <Avatar src={AvatarRamon}>I</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Ibarra Pacheco Carlos Ivan" />
-              </ListItem>
+            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
+              <ListItemAvatar>
+                <Avatar src={AvatarRamon}>I</Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Ibarra Pacheco Carlos Ivan" />
+            </ListItem>
 
-              <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-                <ListItemAvatar>
-                  <Avatar src={AvatarRamon}>R</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Manrique Figueroa Ramon" />
-              </ListItem>
+            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
+              <ListItemAvatar>
+                <Avatar src={AvatarRamon}>R</Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Manrique Figueroa Ramon" />
+            </ListItem>
 
-              <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-                <ListItemAvatar>
-                  <Avatar src={AvatarGonzalo}>G</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Aldana Chavez Gonzalo" />
-              </ListItem>
+            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
+              <ListItemAvatar>
+                <Avatar src={AvatarGonzalo}>G</Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Aldana Chavez Gonzalo" />
+            </ListItem>
 
-              <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-                <ListItemAvatar>
-                  <Avatar>A</Avatar>
-                </ListItemAvatar>
-                <ListItemText primary="Torres Ramirez Alan Antonio" />
-              </ListItem>
-            </List>
-          </div>
-          <Typography align="right" variant="body2" color="white" className={classes.credits} style={{ paddingRight: 30, paddingTop: 70 }}>
-            {'Crafted with Love'}
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={4} md={6} elevation={4} align="center" alignItems="center" className={classes.rightDiv} >
-          <Paper elevation={20} className="paper">
-            <Lottie options={defaultOptions} height={200} width={200} className="lottie" />
-            <form onSubmit={handleLogin}>
-              <TextField name="email" type="email" fullWidth id="outlined-basic" className="" label="Username" margin="normal" variant="outlined" />
-              <TextField name="password" type="password" fullWidth id="outlined-basic" className="" label="Password" margin="normal" variant="outlined" />
-              <Button type="submit" fullWidth variant="contained" style={{ backgroundColor: "#6200ea", color: 'white' }} className="btn-login">LOG IN</Button>
-            </form>
-          </Paper>
-        </Grid>
+            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
+              <ListItemAvatar>
+                <Avatar>A</Avatar>
+              </ListItemAvatar>
+              <ListItemText primary="Torres Ramirez Alan Antonio" />
+            </ListItem>
+          </List>
+        </div>
+        <Typography align="right" variant="body2" color="white" className={classes.credits} style={{ paddingRight: 30, paddingTop: 70 }}>
+          {'Crafted with Love'}
+        </Typography>
       </Grid>
-    
+      <Grid item xs={12} sm={4} md={6} elevation={4} align="center" alignItems="center" className={classes.rightDiv} >
+        <Paper elevation={20} className="paper">
+          <Lottie options={defaultOptions} height={200} width={200} className="lottie" />
+          <form onSubmit={handleLogin}>
+            <TextField name="email" type="email" fullWidth id="outlined-basic" className="" label="Username" margin="normal" variant="outlined" />
+            <TextField name="password" type="password" fullWidth id="outlined-basic" className="" label="Password" margin="normal" variant="outlined" />
+            <Button type="submit" fullWidth variant="contained" style={{ backgroundColor: "#6200ea", color: 'white' }} className="btn-login">LOG IN</Button>
+          </form>
+        </Paper>
+      </Grid>
+    </Grid>
   );
 }
+
+export default Login
