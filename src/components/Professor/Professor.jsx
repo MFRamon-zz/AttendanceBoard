@@ -6,21 +6,21 @@ import Avatar from '@material-ui/core/Avatar';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
-const Profesor = (props) => {
+const Profesor = ({active, image, name, status }) => {
     return (
         <Fragment>
             <Card className="card-container">
                 <CardContent className="card-content">
                     <div className="div-wrap">
-                        <Avatar alt="Spiderman" src="http://2.bp.blogspot.com/-y6gRRHzE1aI/UkV3Do-lcaI/AAAAAAAAWUc/_5BwPJChM0Y/s1600/Wallpaper+Pelicula+-+Spiderman+%25284%2529.jpg"/>
-                        <span className="badge-status">
-                            <FontAwesomeIcon icon={faEye} className="icon" size="xs"/>
-                        </span>
+                        <Avatar alt="Spiderman" src={image}/>
+                        {active ?   <span className="badge-status">
+                                        <FontAwesomeIcon icon={faEye} className="icon" size="xs"/>
+                                    </span> : null}
                         <Typography variant="h6" noWrap className="text-prof">
-                            Spiderman
+                            {name}
                         </Typography>
                     </div>
-                    <span className="badge"></span>
+                    <span className={status ? "badge" : "badge-red"}></span>
                 </CardContent>
             </Card>
         </Fragment>
