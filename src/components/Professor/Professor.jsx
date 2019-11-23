@@ -9,7 +9,7 @@ import { faEye } from "@fortawesome/free-solid-svg-icons";
 const Profesor = ({active, image, name, status }) => {
     return (
         <Fragment>
-            <Card className="card-container">
+            <Card className={active ? "card-container-active" : "card-container"}>
                 <CardContent className="card-content">
                     <div className="div-wrap">
                         <Avatar alt="Spiderman" src={image}/>
