@@ -14,8 +14,13 @@ import Header from '../Header/Header'
 
 const drawerWidth = 280;
 
-const Sidebar = () => {
+const Sidebar = ({data}) => {
+
   const classes = useStyles();
+
+  const showGeofence = () => {
+
+  }
 
   return (
     <div className={classes.root}>
@@ -29,12 +34,20 @@ const Sidebar = () => {
       >
         <div className={classes.toolbar} />
         <List>
+
+          { data.map((p, i) => (
+            <ListItem> 
+              <Profesor name={p.name} image={p.image} active={true} status={true}/>
+            </ListItem>
+          )) }
+
           <ListItem>
-            <Profesor />
+            <Profesor active={true} status={true}/>
           </ListItem>
           <ListItem>
-            <Profesor />
+            <Profesor status={false}/>
           </ListItem>
+
           <ListItem>
             <input
               type="button"

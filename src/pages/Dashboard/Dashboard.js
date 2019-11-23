@@ -5,11 +5,20 @@ import Map from '../../components/Map/Map'
 import FloatingActionButton from '../../components/PButton/PButton'
 
 class Dashboard extends Component {
+
+    componentDidMount(){
+        //Fecht active professors from firebase
+    }
+
+    state={
+        data: null
+    }
+
     render() {
         return (
             <Fragment>
                 <Header/>
-                <Sidebar/>
+                <Sidebar data={this.state.data}/>
                 <Map/>
                 <FloatingActionButton/>
             </Fragment>
