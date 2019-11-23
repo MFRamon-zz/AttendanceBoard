@@ -11,7 +11,7 @@ const FloatingActionButton = () => {
     return (
         <Fragment>
 
-            <Fab color="#D7D7D7" variant="extended" aria-label="delete" className={classes.fab}>
+            <Fab color="primary" variant="extended" aria-label="delete" className={classes.fab}>
                 <FontAwesomeIcon icon={faUserPlus} className={classes.extendedIcon}/>
                 Add Professor
             </Fab>
