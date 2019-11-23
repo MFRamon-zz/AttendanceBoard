@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Dashboard from './pages/Dashboard/Dashboard'
+import AddProfessor from './pages/AddProfessor/AddProfessor'
 import Login from './components/Login/Login'
 import PrivateRoute from './components/privateRoute'
 import { AuthProvider } from './components/auth'
@@ -45,6 +46,7 @@ class App extends Component {
           <div>
             <PrivateRoute exact path="/" component={Dashboard} />
             <Route exact path="/login" component={Login} />
+            <Route exact path="/professor" component={AddProfessor} />
           </div>
         </Router>
       </AuthProvider>
