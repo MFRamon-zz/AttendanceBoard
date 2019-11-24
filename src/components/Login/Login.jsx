@@ -27,8 +27,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import AvatarRamon from './ram.png';
-import AvatarGonzalo from './gonzalo.png';
+import AvatarRamon from '../../assets/ram.png';
+import AvatarGonzalo from '../../assets/gonzalo.png';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -79,8 +79,6 @@ const defaultOptions = {
     preserveAspectRatio: 'xMidYMid slice'
   }
 };
-
-
 
 const Login = ({ history }) => {
   const classes = useStyles();
