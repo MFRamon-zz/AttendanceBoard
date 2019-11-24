@@ -23,7 +23,7 @@ const getClassroomById = async ref => {
     .collection("classrooms")
     .doc(ref)
     .get()
-    .then(snapshot => console.log(snapshot));
+    .then(snapshot => snapshot.data());
 };
 
 /**
