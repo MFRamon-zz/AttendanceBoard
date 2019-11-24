@@ -136,6 +136,7 @@ const newClassroom = async classroom => {
 export {
   getGeofences,
   getClassrooms,
+  getClassroomById,
   newTeacher,
   setAttendance,
   updateGeofence,
