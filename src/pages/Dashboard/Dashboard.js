@@ -10,7 +10,7 @@ class Dashboard extends Component {
             <Fragment>
                 <Header/>
                 <Sidebar/>
-                <Map/>
+                <Map />
                 <FloatingActionButton/>
             </Fragment>
         );
