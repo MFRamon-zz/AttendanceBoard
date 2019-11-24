@@ -14,6 +14,19 @@ const getGeofences = async () => {
 };
 
 /**
+ * Gets a classroom by document reference.
+ *
+ * @param {string} ref Document reference of the classroom
+ */
+const getClassroomById = async ref => {
+  return await db
+    .collection("classrooms")
+    .doc(ref)
+    .get()
+    .then(snapshot => console.log(snapshot));
+};
+
+/**
  * Gets list of classrooms names by getting all the documents in the classrooms collection,
  * iterating each document and returning just the name property.
  */
