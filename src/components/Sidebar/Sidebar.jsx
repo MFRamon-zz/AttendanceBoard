@@ -4,13 +4,12 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  getClassrooms,
-  getGeofences,
-} from "../../helpers/querys";
-import { updateGeofence } from "../../helpers/querys";
-import Profesor from '../Professor/Professor';
-import Header from '../Header/Header'
+import { getClassrooms, getGeofences } from "../../helpers/queries";
+import { updateGeofence } from "../../helpers/queries";
+import Profesor from "../Professor/Professor";
+import Header from "../Header/Header";
+
+// import * as queries from "../../helpers/queries";
 
 const drawerWidth = 280;
 
@@ -49,7 +48,7 @@ const Sidebar = () => {
             <input
               type="button"
               value="Click"
-              //onClick={() => getClassroomsNames()}
+              onClick={async () => await console.log("Hola")}
             />
           </ListItem>
           <ListItem>
