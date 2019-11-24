@@ -27,10 +27,13 @@ const coords = {
 export class MapContainer extends Component {
 
   handleClickOpen = () => {
-    this.setState({dialogForm:{open:true}});
+    this.setState({creatingGeofence:false,dialogForm:{open:true}});
   };
-  handleClose = () => {
-    this.setState({dialogForm:{open:false}});
+  handleCancel = () => {
+    this.setState({creatingGeofence:true,dialogForm:{open:false}});
+  };
+  handleGeofenceComplete = () => {
+    this.setState({creatingGeofence:false,dialogForm:{open:false}});
   };
 
 
@@ -193,7 +196,9 @@ export class MapContainer extends Component {
               style={styles.addGeofenceButton}
               color="secondary"
               aria-label="add"
-              onClick={this.handleClickOpen}
+              onClick={()=>{
+                this.handleClickOpen();
+              }}
             >
               <SaveIcon />
             </Fab>
@@ -201,7 +206,9 @@ export class MapContainer extends Component {
           ):null}
           <DialogForm
             open={this.state.dialogForm.open}
-            handleClose={this.handleClose.bind(this)}
+            handleCancel={this.handleCancel.bind(this)}
+            handleGeofenceComplete={this.handleGeofenceComplete.bind(this)}
+
           />
       </div>
     );
