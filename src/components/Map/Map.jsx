@@ -6,7 +6,7 @@ import {
   InfoWindow,
   Marker
 } from "google-maps-react";
-import { getGeofences, updateGeofence } from "../../helpers/querys";
+import { getGeofences, updateGeofence, getClassroomById } from "../../helpers/queries";
 import Slider from "@material-ui/core/Slider";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -62,16 +62,21 @@ export class MapContainer extends Component {
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
   }
+  
+  getClassroomWithId(Id) {
+    let cls = getClassroomById(Id);
+    return cls;
+  } 
 
   onMarkerClick = (props, marker, e) => {
-    debugger;
+    let classroomInfo = this.getClassroomWithId(props.reference);
     this.setState({
       selectedPlace: props,
       activeMarker: marker,
       showingInfoWindow: true,
       selectedMarker:{
         title:props.title,
-        body:props.name
+        body:classroomInfo
       }
     });
   };
@@ -86,6 +91,8 @@ export class MapContainer extends Component {
 
   async componentWillMount() {
     let allgeofences = await getGeofences();
+    let classroomtest = await getClassroomById("IFVspIwZXX8pavN7ha0C");
+    debugger;
     this.setState({ geofences: allgeofences });
   }
 
@@ -102,13 +109,16 @@ export class MapContainer extends Component {
               lat: 21.152294,
               lng: -101.711238
             }}
-            zoom={20}
+            zoom={18}
             onClick={(e, map, c) => {
               //create the geofence and add it to the this.state.geofences array
               let currentGeofences = this.state.geofences;
               let newGeofence = {
-                radius: 20,
-                coords: c.latLng
+                lenght: 20,
+                coordinates: {
+                  latitude:c.latLng.lat(),
+                  longitude:c.latLng.lng()
+                }
               };
               currentGeofences.pop();
               currentGeofences.push(newGeofence);
@@ -137,7 +147,7 @@ export class MapContainer extends Component {
                   strokeWeight={1}
                   fillColor="#FF22FF"
                   fillOpacity={0.3}
-                  draggable={true}
+                  draggable={false}
                   editable={false}
                 ></Circle>
               );
@@ -146,7 +156,6 @@ export class MapContainer extends Component {
               let lat = marker.coordinates.latitude;
               let lng = marker.coordinates.longitude;
               const latLng = { lat, lng };
-              debugger;
               return (
                 <Marker
                   onClick={this.onMarkerClick}
@@ -158,6 +167,7 @@ export class MapContainer extends Component {
                     anchor: new this.props.google.maps.Point(8, 8),
                     scaledSize: new this.props.google.maps.Size(16, 16)
                   }}
+                  reference={marker.classroom.id}
                   title="The marker"
                   name={JSON.stringify(latLng)}
                 />

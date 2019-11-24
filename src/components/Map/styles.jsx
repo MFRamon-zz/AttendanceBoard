@@ -25,6 +25,10 @@ const styles = {
       height: 65,
       width: 65,
       marginLeft: 15
+    },
+    infoWindow:{
+      width:400,
+      height:50
     }
   };
   
