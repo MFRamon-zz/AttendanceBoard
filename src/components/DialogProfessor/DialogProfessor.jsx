@@ -9,7 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import MenuItem from '@material-ui/core/MenuItem';
 
-import { newTeacher } from "../../helpers/querys";
+import { newTeacher } from "../../helpers/queries";
 import * as factories from "../../helpers/factories";
 import { CreateUser } from "../../helpers/auth";
 import { createEmail } from "../../helpers/createEmailFunction";
