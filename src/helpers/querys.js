@@ -36,19 +36,6 @@ const newTeacher = teacher => {
     .then(snapshot => console.log("Bien: " + snapshot));
 };
 
-//TODO: Get doc id and set it to the corresponding teacher
-/**
- * Inserting the attendace info by getting the reference of the attendance collection
- * and adding a new document with the information of the given param.
- *
- * @param {object} attendace Javascript object with the attendance params
- */
-const setAttendance = attendace => {
-  db.collection("attendace")
-    .add(attendace)
-    .then(snapshot => console.log("Attendace: " + snapshot));
-};
-
 /**
  * Updating a geofence by getting the reference of the geofence document attached to the given id
  * and replacing the info with the given object.
@@ -120,13 +107,64 @@ const newClassroom = async classroom => {
     .then(snapshot => console.log(snapshot));
 };
 
+//TODO: Update documentation
+/**
+ * Inserting the attendace info by getting the reference of the attendance collection
+ * and adding a new document with the information of the given param.
+ *
+ * @param {object} attendace Javascript object with the attendance params
+ */
+const createAttendance = async (attendace, teacherRef) => {
+  const tRef = db.collection("teachers").doc(teacherRef);
+
+  const docRef = await db
+    .collection("attendace")
+    .add(attendace)
+    .then(snapshot => snapshot.id);
+
+  const teacherAttendance = await tRef
+    .get()
+    .then(snapshot => snapshot.data().attendace)
+    .finally(async () => {
+      teacherAttendance.push(db.doc(`attendance/${docRef}`));
+      await tRef.update({ attendace: teacherAttendance });
+    });
+};
+
+const teacherInsideClassroom = async (inside, attendanceRef) => {
+  await db
+    .collection("attendance")
+    .doc(attendanceRef)
+    .update({ inside: inside })
+    .then(snapshot => console.log(snapshot));
+};
+
+const setAttendance = async attendanceRef => {
+  const ref = db.collection("attendance").doc(attendanceRef);
+  const attendance = await ref
+    .get()
+    .then(snapshot => snapshot.data())
+    .finally(() => {
+      ref.update({ attendace: attendance });
+    });
+};
+
+//TODO: LISTEN FOR LOCATION CHANGES
+db.collection("cities")
+  .doc("SF")
+  .onSnapshot(function(doc) {
+    console.log("Current data: ", doc.data());
+  });
+
 export {
   getGeofences,
   getClassrooms,
   newTeacher,
-  setAttendance,
+  createAttendance,
   updateGeofence,
   getActiveTeachers,
   addCourses,
-  newClassroom
+  newClassroom,
+  teacherInsideClassroom,
+  setAttendance
 };
