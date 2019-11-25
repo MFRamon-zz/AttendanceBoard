@@ -8,14 +8,32 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import MenuItem from '@material-ui/core/MenuItem';
 
 import { newTeacher } from "../../helpers/querys";
 import * as factories from "../../helpers/factories";
 import { CreateUser } from "../../helpers/auth";
 import { createEmail } from "../../helpers/createEmailFunction";
 
+
+const roles = [
+  {
+    value: 'Coordinador',
+    label: 'Professor',
+  },
+  {
+    value: 'Maestro',
+    label: 'Principal',
+  },
+];
+
 export default function DialogProfessor(props) {
   const [open, setOpen] = React.useState(false);
+  const [currency, setRole] = React.useState('EUR');
+
+  const handleChange = event => {
+    setRole(event.target.value);
+  };
 
   async function insertTeacher() {
     const email = createEmail("Juan Carlos Aviña Luna", "63533");
@@ -41,40 +59,46 @@ export default function DialogProfessor(props) {
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            label="Name"
+            type="text"
             fullWidth
-            variant="outlined"
+            variant="filled"
           />
           <br></br>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            label="Register Number"
+            type="numeric"
             fullWidth
-            variant="outlined"
+            variant="filled"
           />
           <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Email Address"
-            type="email"
+            id="filled-select-currency"
+            select
+            label="Role"  
+            margin="normal"
             fullWidth
-            variant="outlined"
-          />
+            variant="filled"
+            value={currency}
+            onChange={handleChange}>
+            {roles.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+          </TextField>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={props.handleClose} color="primary">
-            Cancel
+          <DialogActions>
+            <Button onClick={props.handleClose} color="primary">
+              Cancel
           </Button>
-          <Button onClick={async () => await insertTeacher()} color="primary">
-            Accept
+            <Button onClick={async () => await insertTeacher()} color="primary">
+              Accept
           </Button>
-        </DialogActions>
+          </DialogActions>
       </Dialog>
     </div>
-  );
-}
+      );
+    }

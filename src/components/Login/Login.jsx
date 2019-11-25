@@ -223,7 +223,7 @@ const Login = ({ history }) => {
               className=""
               label="Username"
               margin="normal"
-              variant="outlined"
+              variant="filled"
             />
             <TextField
               name="password"
@@ -233,7 +233,7 @@ const Login = ({ history }) => {
               className=""
               label="Password"
               margin="normal"
-              variant="outlined"
+              variant="filled"
             />
             <Button
               type="submit"
