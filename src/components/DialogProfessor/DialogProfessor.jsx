@@ -77,28 +77,28 @@ export default function DialogProfessor(props) {
           <TextField
             id="filled-select-currency"
             select
-            label="Role"  
+            label="Role"
             margin="normal"
             fullWidth
             variant="filled"
             value={currency}
             onChange={handleChange}>
             {roles.map(option => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
           </TextField>
         </DialogContent>
-          <DialogActions>
-            <Button onClick={props.handleClose} color="primary">
-              Cancel
+        <DialogActions>
+          <Button onClick={props.handleClose} color="primary">
+            Cancel
           </Button>
-            <Button onClick={async () => await insertTeacher()} color="primary">
-              Accept
+          <Button onClick={async () => await insertTeacher()} color="primary">
+            Accept
           </Button>
-          </DialogActions>
+        </DialogActions>
       </Dialog>
     </div>
-      );
-    }
+  );
+}
