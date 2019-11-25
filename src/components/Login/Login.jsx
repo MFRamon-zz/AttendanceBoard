@@ -27,10 +27,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import AvatarIvan from "../../assets/ivan.jpeg";
-import AvatarRamon from "../../assets/ramon.png";
-import AvatarGonzalo from "../../assets/gonzalo.png";
-import AvatarAvinia from "../../assets/avinia.png";
+import avatarIvan from "../../assets/ivan.jpeg";
+import avatarRamon from "../../assets/ramon.png";
+import avatarGonzalo from "../../assets/gonzalo.png";
+import avatarAvinia from "../../assets/avinia.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -111,6 +111,24 @@ const Login = ({ history }) => {
     }
   });
 
+  const authors = [
+    { name: 'Ibarra Pacheco Carlos Ivan', image: avatarIvan },
+    { name: 'Manrique Figueroa Ramon', image: avatarRamon },
+    { name: 'Aldana Chavez Gonzalo', image: avatarGonzalo },
+    { name: 'Avinia Luna Juan Carlos', image: avatarAvinia }
+  ];
+
+  const authorsList = authors.map((author) => {
+    return (
+      <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
+        <ListItemAvatar>
+          <Avatar src={author.image}>A</Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={author.name} />
+      </ListItem>
+    );
+  });
+
   return (
     <Grid container component="main" className={classes.root}>
       <Grid
@@ -135,8 +153,7 @@ const Login = ({ history }) => {
           alignItems="center"
           variant="h1"
           className={classes.title}
-          style={{ paddingBottom: 40 }}
-        >
+          style={{ paddingBottom: 40 }}>
           Board
         </Typography>
         <Typography
@@ -144,47 +161,13 @@ const Login = ({ history }) => {
           alignItems="center"
           variant="h6"
           className={classes.credits}
-          style={{ paddingBottom: 20 }}
-        >
+          style={{ paddingBottom: 20 }}>
           Crafted and Built by:
         </Typography>
 
         <div className={classes.demo}>
           <List alignItems="flex-start" dense={dense}>
-            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-              <ListItemAvatar>
-                <Avatar src={AvatarAvinia}>A</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Avinia Luna Juan Carlos" />
-            </ListItem>
-
-            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-              <ListItemAvatar>
-                <Avatar src={AvatarIvan}>I</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Ibarra Pacheco Carlos Ivan" />
-            </ListItem>
-
-            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-              <ListItemAvatar>
-                <Avatar src={AvatarRamon}>R</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Manrique Figueroa Ramon" />
-            </ListItem>
-
-            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-              <ListItemAvatar>
-                <Avatar src={AvatarGonzalo}>G</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Aldana Chavez Gonzalo" />
-            </ListItem>
-
-            <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
-              <ListItemAvatar>
-                <Avatar>A</Avatar>
-              </ListItemAvatar>
-              <ListItemText primary="Torres Ramirez Alan Antonio" />
-            </ListItem>
+            {authorsList}
           </List>
         </div>
         <Typography
