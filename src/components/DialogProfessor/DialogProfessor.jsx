@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -27,16 +26,8 @@ const roles = [
   },
 ];
 
-const initialState = {
-  professorName: '',
-  professorNumber: '',
-  professorRole: '',
-};
-
 export default function DialogProfessor(props) {
   const [open, setOpen] = React.useState(false);
-
-
   const [role, setRole] = React.useState('');
   const [number, setNumber] = React.useState('');
   const [name, setName] = React.useState('');
@@ -83,7 +74,6 @@ export default function DialogProfessor(props) {
             value={name}
             onChange={handleNameChange}
           />
-          <br></br>
           <TextField
             autoFocus
             margin="dense"
