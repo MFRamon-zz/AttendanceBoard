@@ -18,30 +18,48 @@ import { createEmail } from "../../helpers/createEmailFunction";
 
 const roles = [
   {
-    value: 'Coordinador',
+    value: 'Maestro',
     label: 'Professor',
   },
   {
-    value: 'Maestro',
+    value: 'Coordinador',
     label: 'Principal',
   },
 ];
 
+const initialState = {
+  professorName: '',
+  professorNumber: '',
+  professorRole: '',
+};
+
 export default function DialogProfessor(props) {
   const [open, setOpen] = React.useState(false);
-  const [currency, setRole] = React.useState('EUR');
 
-  const handleChange = event => {
-    setRole(event.target.value);
-  };
 
-  async function insertTeacher() {
-    const email = createEmail("Juan Carlos Aviña Luna", "63533");
-    const uid = await CreateUser(email, "123456");
+  const [role, setRole] = React.useState('');
+  const [number, setNumber] = React.useState('');
+  const [name, setName] = React.useState('');
+  
+  async function insertTeacher(name,number,role) {
+    const email = createEmail(name, number);
+    const uid = await CreateUser(email, number);
     await newTeacher(
-      factories.newTeacher("Juan Carlos Aviña Luna", "teacher", uid)
+      factories.newTeacher(name, role, uid)
     );
   }
+
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleNumber = (event) => {
+    setNumber(event.target.value);
+  };
+
+  const handleRole = event => {
+    setRole(event.target.value);
+  };
 
   return (
     <div>
@@ -62,6 +80,8 @@ export default function DialogProfessor(props) {
             type="text"
             fullWidth
             variant="filled"
+            value={name}
+            onChange={handleNameChange}
           />
           <br></br>
           <TextField
@@ -72,6 +92,8 @@ export default function DialogProfessor(props) {
             type="numeric"
             fullWidth
             variant="filled"
+            value={number}
+            onChange={handleNumber}
           />
           <TextField
             id="filled-select-currency"
@@ -80,8 +102,8 @@ export default function DialogProfessor(props) {
             margin="normal"
             fullWidth
             variant="filled"
-            value={currency}
-            onChange={handleChange}>
+            value={role}
+            onChange={handleRole}>
             {roles.map(option => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
@@ -93,8 +115,8 @@ export default function DialogProfessor(props) {
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button style={{ backgroundColor: "#6200ea", color: "white" }} 
-            onClick={async () => await insertTeacher()}>
+          <Button style={{ backgroundColor: "#6200ea", color: "white" }}
+            onClick={async () => await insertTeacher(name,number,role)}>
             Accept
           </Button>
         </DialogActions>
