@@ -7,8 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import {
   getClassrooms,
   getGeofences,
-} from "../../helpers/querys";
-import { updateGeofence } from "../../helpers/querys";
+} from "../../helpers/queries";
+import { updateGeofence } from "../../helpers/queries";
 import Profesor from '../Professor/Professor';
 import Header from '../Header/Header'
 
