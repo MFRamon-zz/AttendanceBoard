@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import Button from "@material-ui/core/Button";
@@ -14,6 +14,9 @@ import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 import Chip from "@material-ui/core/Chip";
 import MenuItem from "@material-ui/core/MenuItem";
+
+import * as factories from "../../helpers/factories";
+import { newClassroom, getCourses } from "../../helpers/queries";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -44,13 +47,7 @@ const MenuProps = {
   }
 };
 
-const courses = [
-  "Desarrollo Colaborativo",
-  "Sistemas geo referenciados",
-  "Desarrollo Sustentable",
-  "Ciudadania y Responsabilidad Social",
-  "Minería de Datos"
-];
+let courses = [];
 
 function getStyles(name, personName, theme) {
   return {
@@ -62,6 +59,11 @@ function getStyles(name, personName, theme) {
 }
 
 export default function DialogForm(props) {
+  useState(async () => {
+    courses = await getCourses();
+    console.log(courses);
+  });
+
   const [open, setOpen] = React.useState(false);
 
   const classes = useStyles();
@@ -81,6 +83,10 @@ export default function DialogForm(props) {
       }
     }
     setPersonName(value);
+  };
+
+  const insertClassroom = async () => {
+    await newClassroom(factories.newClassroom("name", []));
   };
 
   return (

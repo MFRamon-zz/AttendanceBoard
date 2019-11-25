@@ -133,6 +133,13 @@ const newClassroom = async classroom => {
     .then(snapshot => console.log(snapshot));
 };
 
+const getCourses = async () => {
+  return await db
+    .collection("courses")
+    .get()
+    .then(snapshot => snapshot.docs.map(doc => doc.data().title));
+};
+
 export {
   getGeofences,
   getClassrooms,
@@ -142,5 +149,6 @@ export {
   updateGeofence,
   getActiveTeachers,
   addCourses,
-  newClassroom
+  newClassroom,
+  getCourses
 };
