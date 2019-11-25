@@ -4,8 +4,8 @@ const styles = {
       zIndex: 9999,
       position: "absolute",
       bottom: 0,
-      left: "50%",
-      right: "50%",
+      left: "40%",
+      // right: "50%",
       marginBottom: 25
     },
     paper:{    
@@ -25,6 +25,12 @@ const styles = {
       height: 65,
       width: 65,
       marginLeft: 15
+    },
+    clearGeofenceButton:{
+      float: "left",
+      height: 65,
+      width: 65,
+      marginRight: 15,
     },
     infoWindow:{
       width:400,

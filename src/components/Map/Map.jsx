@@ -6,44 +6,74 @@ import {
   InfoWindow,
   Marker
 } from "google-maps-react";
-import { getGeofences, updateGeofence, getClassroomById } from "../../helpers/queries";
+import {
+  getGeofences,
+  updateGeofence,
+  getClassroomById
+} from "../../helpers/queries";
 import Slider from "@material-ui/core/Slider";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import SaveIcon from "@material-ui/icons/Save";
+import DeleteIcon from "@material-ui/icons/Delete";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import styles from "./styles";
 import DialogForm from "../DialogForm/DialogForm";
 
-// const coords = {
-//   lat: 21.152294,
-//   lng: -101.711238
-// };
+const coords = {
+  lat: 21.152294,
+  lng: -101.711238
+};
 
 export class MapContainer extends Component {
-
+  handleClearGeofence = () => {
+    let lstgeofences = this.state.geofences;
+    lstgeofences.pop();
+    this.setState({
+      drawingGeofence: false,
+      creatingGeofence: false,
+      dialogForm: { open: false },
+      newGeofence: {
+        lenght: 0,
+        coordinates: { latitude: null, longitude: null }
+      },
+      geofences: lstgeofences
+    });
+  };
   /**
-   * Event handler after pressing the Save Fab button next to radio slider. 
+   * Event handler after pressing the Save Fab button next to radio slider.
    * It shows the form and hides the slider radio selector by setting the state of creatingGeofence as false.
-  **/
+   **/
   handleClickOpen = () => {
-    this.setState({ creatingGeofence: false, dialogForm: { open: true } });
+    this.setState({
+      drawingGeofence: false,
+      creatingGeofence: true,
+      dialogForm: { open: true }
+    });
   };
   /**
-   * Event handler after pressing Cancel button inside Dialog Form modal. 
-   * It hides the form but keeps the UI ready to modify the new geofence. 
-  **/
+   * Event handler after pressing Cancel button inside Dialog Form modal.
+   * It hides the form but keeps the UI ready to modify the new geofence.
+   **/
   handleCancel = () => {
-    this.setState({ creatingGeofence: true, dialogForm: { open: false } });
+    this.setState({
+      drawingGeofence: true,
+      creatingGeofence: true,
+      dialogForm: { open: false }
+    });
   };
   /**
-   * Event handler after pressing Accept button inside Dialog Form modal. 
-   * It hides the form but keeps the UI ready to modify the new geofence. 
-  **/
+   * Event handler after pressing Accept button inside Dialog Form modal.
+   * It hides the form but keeps the UI ready to modify the new geofence.
+   **/
   handleGeofenceComplete = () => {
-    this.setState({ creatingGeofence: false, dialogForm: { open: false } });
+    this.setState({
+      drawingGeofence: false,
+      creatingGeofence: false,
+      dialogForm: { open: false }
+    });
     //TODO: clear the map and call the method that will paint all geofences from db.
   };
 
@@ -51,53 +81,62 @@ export class MapContainer extends Component {
     super(props);
     this.state = {
       google: null,
-      newGeofenceRadius: 10,
+      newGeofence: {
+        lenght: 20,
+        coordinates: {
+          latitude: 0,
+          longitude: 0
+        }
+      },
       geofences: [],
+      drawingGeofence: false,
       creatingGeofence: false,
-      modalClassroom: false,
       showingInfoWindow: false,
       activeMarker: {},
       selectedPlace: {},
-      loading: false,
       dialogForm: {
         open: false
       },
-      personName: "",
+      loading: false,
       error: {
         status: false,
         message: ""
       },
-      selectedMarker:{
-        title:"Clasroom",
-        description:"body"
+      selectedMarker: {
+        title: "Clasroom",
+        description: "body"
       }
     };
     this.onMarkerClick = this.onMarkerClick.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
+    // this.onMapClick = this.onMapClick.bind(this);
   }
   /**
    * This method calls for the backend bringing the information of the selected marker (class room).
-   * @param {string} Id The Id reference we got from the geofence firebase object. 
+   * @param {string} Id The Id reference we got from the geofence firebase object.
    * @param {object} props Props passed in order to display/hide the InfoWindow.
    */
-  getClassroomWithId = async(Id,props) => {
+  getClassroomWithId = async (Id, props) => {
     const { selectedPlace, activeMarker, showingInfoWindow } = props;
     try {
       let res = await getClassroomById(Id);
       let clasroom = res.name;
       console.log(res);
       // this will re render the view with new data
-      this.setState({selectedMarker:{description:clasroom,title:"Clasroom"},selectedPlace, activeMarker, showingInfoWindow });
+      this.setState({
+        selectedMarker: { description: clasroom, title: "Clasroom" },
+        selectedPlace,
+        activeMarker,
+        showingInfoWindow
+      });
     } catch (err) {
       console.log(err);
     }
-  }
-
+  };
 
   /**
    * Called after clicking on a marker.
    *
-   * @param {object} props Props passed 
+   * @param {object} props Props passed
    * @param {object} marker the marker itself element
    * @param {object} e Event
    */
@@ -107,23 +146,14 @@ export class MapContainer extends Component {
       activeMarker: marker,
       showingInfoWindow: true
     };
-    this.getClassroomWithId(props.reference, markerState );
+    this.getClassroomWithId(props.reference, markerState);
   };
-  
+
   /**
    * Called after clicking on a marker.
    *
-   * @param {object} props Props passed 
+   * @param {object} props Props passed
    */
-
-  onMapClick = props => {
-    if (this.state.showingInfoWindow) {
-      this.setState({
-        showingInfoWindow: false,
-        activeMarker: null
-      });
-    }
-  };
 
   /**
    * Called before mounting the component Map. It will bring all geofences and save them on the component state.
@@ -148,21 +178,28 @@ export class MapContainer extends Component {
             }}
             zoom={18}
             onClick={(e, map, c) => {
-              //create the geofence and add it to the this.state.geofences array
-              let currentGeofences = this.state.geofences;
-              let newGeofence = {
-                lenght: 20,
-                coordinates: {
-                  latitude:c.latLng.lat(),
-                  longitude:c.latLng.lng()
-                }
-              };
-              currentGeofences.pop();
-              currentGeofences.push(newGeofence);
-              this.setState({
-                geofences: currentGeofences,
-                creatingGeofence: true
-              });
+              //create the geofence add it to state newGeofence
+              if (!this.state.drawingGeofence) {
+                let geofence = {
+                  lenght: 20,
+                  coordinates: {
+                    latitude: c.latLng.lat(),
+                    longitude: c.latLng.lng()
+                  }
+                };
+                let lstGeofences = this.state.geofences;
+                lstGeofences.push(geofence);
+                this.setState(
+                  {
+                    newGeofence: geofence,
+                    geofences: lstGeofences,
+                    drawingGeofence: true
+                  },
+                  () => {
+                    console.log(this.state);
+                  }
+                );
+              }
             }}
             streetViewControl={false}
             zoomControlOptions={{
@@ -171,13 +208,14 @@ export class MapContainer extends Component {
             yesIWantToUseGoogleMapApiInternals={true}
           >
             {this.state.geofences.map(circle => {
-              let lat = circle.coordinates.latitude;
-              let lng = circle.coordinates.longitude;
+              const { coordinates, lenght } = circle;
+              let lat = coordinates.latitude;
+              let lng = coordinates.longitude;
               const latLng = { lat, lng };
               return (
                 <Circle
                   id="geofence"
-                  radius={circle.lenght}
+                  radius={lenght}
                   center={latLng}
                   strokeColor="red"
                   strokeOpacity={1}
@@ -190,8 +228,9 @@ export class MapContainer extends Component {
               );
             })}
             {this.state.geofences.map(marker => {
-              let lat = marker.coordinates.latitude;
-              let lng = marker.coordinates.longitude;
+              const { classroom = { id: "" }, coordinates } = marker;
+              let lat = coordinates.latitude;
+              let lng = coordinates.longitude;
               const latLng = { lat, lng };
               return (
                 <Marker
@@ -204,38 +243,58 @@ export class MapContainer extends Component {
                     anchor: new this.props.google.maps.Point(8, 8),
                     scaledSize: new this.props.google.maps.Size(16, 16)
                   }}
-                  reference={marker.classroom.id}
+                  reference={classroom.id}
                   title="The marker"
                   name={JSON.stringify(latLng)}
                 />
               );
             })}
             <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showingInfoWindow}
+              marker={this.state.activeMarker}
+              visible={this.state.showingInfoWindow}
             >
-            <Paper>
-              <Typography variant="headline" component="h4">
-                {this.state.selectedMarker.title}
-              </Typography>
-              <Typography component="p">
-                {this.state.selectedMarker.description}
-              </Typography>
-            </Paper>
+              <Paper>
+                <Typography variant="headline" component="h4">
+                  {this.state.selectedMarker.title}
+                </Typography>
+                <Typography component="p">
+                  {this.state.selectedMarker.description}
+                </Typography>
+              </Paper>
             </InfoWindow>
           </Map>
-          {this.state.creatingGeofence ? (
+          {this.state.drawingGeofence ? (
             <div style={styles.geofenceForm}>
+              <Fab
+                style={styles.clearGeofenceButton}
+                color="accent"
+                aria-label="clear"
+                onClick={() => {
+                  this.handleClearGeofence();
+                }}
+              >
+                <DeleteIcon />
+              </Fab>
+
               <Paper style={styles.paper}>
                 <Slider
-                  id="sldRadius"
                   defaultValue={20}
                   style={styles.slider}
                   aria-labelledby="discrete-slider-custom"
                   step={1}
                   valueLabelDisplay="auto"
                   onChange={(object, value) => {
-                    this.setState({ newGeofenceRadius: value });
+                    let lstgeofences = this.state.geofences;
+                    lstgeofences.pop();
+                    const { coordinates } = this.state.newGeofence;
+                    const _newGeofence = {
+                      lenght: value,
+                      coordinates: coordinates
+                    };
+                    lstgeofences.push(_newGeofence);
+                    this.setState({ newGeofence: _newGeofence }, () => {
+                      console.log(this.state.newGeofence);
+                    });
                   }}
                 />
                 <Typography component="p">Geofence Radius</Typography>
@@ -243,7 +302,7 @@ export class MapContainer extends Component {
               <Fab
                 style={styles.addGeofenceButton}
                 color="secondary"
-                aria-label="add"
+                aria-label="save"
                 onClick={() => {
                   this.handleClickOpen();
                 }}
