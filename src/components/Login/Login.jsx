@@ -27,8 +27,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 
-import AvatarRamon from "../../assets/ram.png";
+import AvatarIvan from "../../assets/ivan.jpeg";
+import AvatarRamon from "../../assets/ramon.png";
 import AvatarGonzalo from "../../assets/gonzalo.png";
+import AvatarAvinia from "../../assets/avinia.png";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -151,14 +153,14 @@ const Login = ({ history }) => {
           <List alignItems="flex-start" dense={dense}>
             <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
               <ListItemAvatar>
-                <Avatar src={AvatarRamon}>A</Avatar>
+                <Avatar src={AvatarAvinia}>A</Avatar>
               </ListItemAvatar>
               <ListItemText primary="Avinia Luna Juan Carlos" />
             </ListItem>
 
             <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
               <ListItemAvatar>
-                <Avatar src={AvatarRamon}>I</Avatar>
+                <Avatar src={AvatarIvan}>I</Avatar>
               </ListItemAvatar>
               <ListItemText primary="Ibarra Pacheco Carlos Ivan" />
             </ListItem>
@@ -192,7 +194,7 @@ const Login = ({ history }) => {
           className={classes.credits}
           style={{ paddingRight: 30, paddingTop: 70 }}
         >
-          {"Crafted with Love"}
+          {"Crafted with Love ❤"}
         </Typography>
       </Grid>
       <Grid
