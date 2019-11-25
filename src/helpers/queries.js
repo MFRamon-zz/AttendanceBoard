@@ -82,31 +82,34 @@ const updateGeofence = async (id, geofence) => {
  *
  * @param {number} currentHour The current hour in 24 hours format
  */
-const getActiveTeachers = async currentHour => {
-  const query = db.collection("courses");
-  query.where("schedule.startTime", "<=", currentHour);
-  query.where("schedule.endTime", ">=", currentHour);
+const getActiveTeachers = async (day, currentHour) => {
+  const q = await db.collection("courses");
+  let query = q.where(`_${day}.start`, "<=", currentHour);
 
-  const teacherRef = await query
+  query = await query
     .get()
-    .then(snapshot => snapshot.docs.map(doc => doc.data().teacher));
+    .then(snapshot => snapshot.docs.map(doc => doc.data()));
+
+  query = query.map(q => {
+    if (q[`_${day}`].end >= currentHour) {
+      return q.teacher;
+    }
+  });
+  query = query.filter(q => q != undefined);
+
   const listTeachers = await db
     .collection("teacher")
     .get()
     .then(snapshot => snapshot.docs);
 
-  const teacher = teacherRef.map(ref =>
-    listTeachers
-      .find(item => {
-        if (item.ref === ref);
-        {
-          return item;
-        }
-      })
-      .data()
+  const ids = listTeachers.map(t => t.id);
+  const teacherId = query.map(ref => ids.find(item => item == ref.id));
+
+  const activeTeachers = teacherId.map(id =>
+    listTeachers.find(t => t.id == id).data()
   );
 
-  return teacher;
+  return activeTeachers;
 };
 
 /**
