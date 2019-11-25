@@ -9,6 +9,31 @@ import Menu from '@material-ui/core/Menu';
 import { makeStyles } from '@material-ui/core/styles';
 import app from "../../config/firebaseConfig";
 
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    appBar: {
+        zIndex: theme.zIndex.drawer + 1,
+        backgroundColor: '#6200ea'
+    },
+    text: {
+        color: '#707070'
+    },
+    toolbar: theme.mixins.toolbar,
+    fab: {
+        margin: theme.spacing(1),   
+        zIndex: 5000,
+        position: "fixed",
+        bottom: 30,
+        right: 30
+        },
+        extendedIcon: {
+        marginRight: theme.spacing(1),
+        },
+}));
+
 const Header = (props) => {
     const classes = useStyles();
     const handleMenu = event => {
@@ -20,10 +45,9 @@ const Header = (props) => {
 
     return (
         <Fragment>
-
             <AppBar position="fixed" className={classes.appBar}>
                     <Toolbar className="toolbar">
-                    <Typography variant="h6" noWrap className={classes.text}>
+                    <Typography style={{ color: "white" }} variant="h6" noWrap className={classes.text}>
                         Administration Panel
                     </Typography>
                     <Button onClick={handleMenu}>
@@ -49,34 +73,8 @@ const Header = (props) => {
                         </Menu>
                     </Toolbar>
                 </AppBar>
-
         </Fragment>
     );
-
 };
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
-        backgroundColor: '#F5F5F5'
-    },
-    text: {
-        color: '#707070'
-    },
-    toolbar: theme.mixins.toolbar,
-    fab: {
-        margin: theme.spacing(1),   
-        zIndex: 5000,
-        position: "fixed",
-        bottom: 30,
-        right: 30
-        },
-        extendedIcon: {
-        marginRight: theme.spacing(1),
-        },
-}));
 
 export default Header;
