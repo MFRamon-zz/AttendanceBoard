@@ -33,7 +33,7 @@ const getClassrooms = async () => {
 const newTeacher = teacher => {
   db.collection("teacher")
     .add(teacher)
-    .then(snapshot => console.log("Bien: " + snapshot));
+    .then(snapshot => console.log("doc id: " + snapshot.id));
 };
 
 //TODO: Get doc id and set it to the corresponding teacher
