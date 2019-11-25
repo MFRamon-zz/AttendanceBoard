@@ -17,18 +17,31 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import styles from "./styles";
 import DialogForm from "../DialogForm/DialogForm";
 
-const coords = {
-  lat: 21.152294,
-  lng: -101.711238
-};
+// const coords = {
+//   lat: 21.152294,
+//   lng: -101.711238
+// };
 
 export class MapContainer extends Component {
+
+  /**
+   * Event handler after pressing the Save Fab button next to radio slider. 
+   * It shows the form and hides the slider radio selector by setting the state of creatingGeofence as false.
+  **/
   handleClickOpen = () => {
     this.setState({ creatingGeofence: false, dialogForm: { open: true } });
   };
+  /**
+   * Event handler after pressing Cancel button inside Dialog Form modal. 
+   * It hides the form but keeps the UI ready to modify the new geofence. 
+  **/
   handleCancel = () => {
     this.setState({ creatingGeofence: true, dialogForm: { open: false } });
   };
+  /**
+   * Event handler after pressing Accept button inside Dialog Form modal. 
+   * It hides the form but keeps the UI ready to modify the new geofence. 
+  **/
   handleGeofenceComplete = () => {
     this.setState({ creatingGeofence: false, dialogForm: { open: false } });
     //TODO: clear the map and call the method that will paint all geofences from db.
@@ -55,31 +68,54 @@ export class MapContainer extends Component {
         message: ""
       },
       selectedMarker:{
-        title:"title",
-        body:"body"
+        title:"Clasroom",
+        description:"body"
       }
     };
     this.onMarkerClick = this.onMarkerClick.bind(this);
     this.onMapClick = this.onMapClick.bind(this);
   }
-  
-  getClassroomWithId(Id) {
-    let cls = getClassroomById(Id);
-    return cls;
-  } 
+  /**
+   * This method calls for the backend bringing the information of the selected marker (class room).
+   * @param {string} Id The Id reference we got from the geofence firebase object. 
+   * @param {object} props Props passed in order to display/hide the InfoWindow.
+   */
+  getClassroomWithId = async(Id,props) => {
+    const { selectedPlace, activeMarker, showingInfoWindow } = props;
+    try {
+      let res = await getClassroomById(Id);
+      let clasroom = res.name;
+      console.log(res);
+      // this will re render the view with new data
+      this.setState({selectedMarker:{description:clasroom,title:"Clasroom"},selectedPlace, activeMarker, showingInfoWindow });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
+
+  /**
+   * Called after clicking on a marker.
+   *
+   * @param {object} props Props passed 
+   * @param {object} marker the marker itself element
+   * @param {object} e Event
+   */
   onMarkerClick = (props, marker, e) => {
-    let classroomInfo = this.getClassroomWithId(props.reference);
-    this.setState({
+    const markerState = {
       selectedPlace: props,
       activeMarker: marker,
-      showingInfoWindow: true,
-      selectedMarker:{
-        title:props.title,
-        body:classroomInfo
-      }
-    });
+      showingInfoWindow: true
+    };
+    this.getClassroomWithId(props.reference, markerState );
   };
+  
+  /**
+   * Called after clicking on a marker.
+   *
+   * @param {object} props Props passed 
+   */
+
   onMapClick = props => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -89,10 +125,11 @@ export class MapContainer extends Component {
     }
   };
 
+  /**
+   * Called before mounting the component Map. It will bring all geofences and save them on the component state.
+   **/
   async componentWillMount() {
     let allgeofences = await getGeofences();
-    let classroomtest = await getClassroomById("IFVspIwZXX8pavN7ha0C");
-    debugger;
     this.setState({ geofences: allgeofences });
   }
 
@@ -182,7 +219,7 @@ export class MapContainer extends Component {
                 {this.state.selectedMarker.title}
               </Typography>
               <Typography component="p">
-                {this.state.selectedMarker.body}
+                {this.state.selectedMarker.description}
               </Typography>
             </Paper>
             </InfoWindow>
