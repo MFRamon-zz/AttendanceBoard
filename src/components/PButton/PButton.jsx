@@ -42,6 +42,7 @@ class FloatingActionButton extends Component {
           color="primary"
           variant="extended"
           aria-label="delete"
+          style={{ backgroundColor: "#6200ea", color: "white" }} 
           onClick={this.handleClickOpen}
           className={classes.fab}
         >

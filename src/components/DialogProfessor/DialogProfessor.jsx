@@ -48,8 +48,7 @@ export default function DialogProfessor(props) {
       <Dialog
         open={props.open}
         onClose={props.handleClose}
-        aria-labelledby="form-dialog-title"
-      >
+        aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Add Professor</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -94,7 +93,8 @@ export default function DialogProfessor(props) {
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={async () => await insertTeacher()} color="primary">
+          <Button style={{ backgroundColor: "#6200ea", color: "white" }} 
+            onClick={async () => await insertTeacher()}>
             Accept
           </Button>
         </DialogActions>

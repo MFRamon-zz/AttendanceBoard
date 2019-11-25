@@ -223,8 +223,7 @@ const Login = ({ history }) => {
               fullWidth
               variant="contained"
               style={{ backgroundColor: "#6200ea", color: "white" }}
-              className="btn-login"
-            >
+              className="btn-login">
               LOG IN
             </Button>
           </form>
