@@ -9,15 +9,29 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
+import { newTeacher } from "../../helpers/querys";
+import * as factories from "../../helpers/factories";
+import { CreateUser } from "../../helpers/auth";
+import { createEmail } from "../../helpers/createEmailFunction";
+
 export default function DialogProfessor(props) {
   const [open, setOpen] = React.useState(false);
+
+  async function insertTeacher() {
+    const email = createEmail("Juan Carlos Aviña Luna", "63533");
+    const uid = await CreateUser(email, "123456");
+    await newTeacher(
+      factories.newTeacher("Juan Carlos Aviña Luna", "teacher", uid)
+    );
+  }
 
   return (
     <div>
       <Dialog
         open={props.open}
         onClose={props.handleClose}
-        aria-labelledby="form-dialog-title">
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Add Professor</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -56,7 +70,7 @@ export default function DialogProfessor(props) {
           <Button onClick={props.handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={props.handleClose} color="primary">
+          <Button onClick={async () => await insertTeacher()} color="primary">
             Accept
           </Button>
         </DialogActions>
