@@ -12,9 +12,10 @@ const newTeacher = (name, role, uid) => {
   };
 };
 
-const newAttendance = attendance => {
+const newAttendance = () => {
   return {
-    attendance,
+    attendance: false,
+    inside: false,
     date: firebase.firestore.Timestamp.fromDate(Date.now)
   };
 };
