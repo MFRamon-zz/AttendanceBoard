@@ -43,8 +43,8 @@ class Dashboard extends Component {
         return (
             <Fragment>
                 <Header/>
-                <Sidebar data={this.state.data}/>
-                <Map/>
+                <Sidebar/>
+                <Map />
                 <FloatingActionButton/>
             </Fragment>
         );
