@@ -27,6 +27,8 @@ const coords = {
   lng: -101.711238
 };
 
+
+
 export class MapContainer extends Component {
   handleClearGeofence = () => {
     let lstgeofences = this.state.geofences;
@@ -42,6 +44,7 @@ export class MapContainer extends Component {
       geofences: lstgeofences
     });
   };
+  
   /**
    * Event handler after pressing the Save Fab button next to radio slider.
    * It shows the form and hides the slider radio selector by setting the state of creatingGeofence as false.
@@ -80,6 +83,7 @@ export class MapContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mapCenter:{},
       google: null,
       newGeofence: {
         lenght: 20,
@@ -109,6 +113,7 @@ export class MapContainer extends Component {
     };
     this.onMarkerClick = this.onMarkerClick.bind(this);
     // this.onMapClick = this.onMapClick.bind(this);
+    
   }
   /**
    * This method calls for the backend bringing the information of the selected marker (class room).
@@ -120,6 +125,7 @@ export class MapContainer extends Component {
     try {
       let res = await getClassroomById(Id);
       let clasroom = res.name;
+      debugger;
       console.log(res);
       // this will re render the view with new data
       this.setState({
@@ -159,23 +165,39 @@ export class MapContainer extends Component {
    * Called before mounting the component Map. It will bring all geofences and save them on the component state.
    **/
   async componentWillMount() {
+    const { profesor } = this.props;
     let allgeofences = await getGeofences();
-    this.setState({ geofences: allgeofences });
+    this.setState({ geofences: allgeofences , profesor});
+  }
+  async componentWillReceiveProps(props){
+    const { profesor } = props;
+    //let allgeofences = await getGeofences();
+    this.setState({ profesor});
   }
 
   render() {
     const { geofences, loading, error } = this.state;
+    // let _lat = this.props.profesor.position.latitude;
+    // let _lng = this.props.profesor.position.longitude;
+    // const _latLng = { _lat, _lng };
+    
+
     if (this.props.google) {
+      let latLngProfMarker;
+      if(this.state.profesor){
+        let lat = this.state.profesor.position.latitude;
+        let lng = this.state.profesor.position.longitude;
+        latLngProfMarker = { lat, lng };  
+      }
+
       return (
         <div>
           <Map
             google={window.google}
             onReady={this.initMap}
             visible={true}
-            initialCenter={{
-              lat: 21.152294,
-              lng: -101.711238
-            }}
+            initialCenter={coords}
+            center={this.state.mapCenter}
             zoom={18}
             onClick={(e, map, c) => {
               //create the geofence add it to state newGeofence
@@ -227,6 +249,33 @@ export class MapContainer extends Component {
                 ></Circle>
               );
             })}
+            { this.state.profesor ? 
+           
+            (<Marker
+                onClick={(props, marker, e)=>{
+                  debugger;
+                  this.setState({
+                    mapCenter:{latLngProfMarker},
+                    selectedMarker: { description: props.title, title: props.name },
+                    selectedPlace: props,
+                    activeMarker: marker,
+                    showingInfoWindow:true
+                  });                            
+                }}
+                {...this.props}
+                position={latLngProfMarker}
+                icon={{
+                  url:
+                    "https://www.showplacerents.com/img/user-placeholder.png",
+                  anchor: new this.props.google.maps.Point(16, 16),
+                  scaledSize: new this.props.google.maps.Size(32, 32)
+                }}
+                // reference={classroom.id}
+                title = {this.state.profesor.name} //this.state.prop.name
+                name={this.state.profesor.role} //string vacio
+              />):null
+            }
+
             {this.state.geofences.map(marker => {
               const { classroom = { id: "" }, coordinates } = marker;
               let lat = coordinates.latitude;
@@ -244,8 +293,8 @@ export class MapContainer extends Component {
                     scaledSize: new this.props.google.maps.Size(16, 16)
                   }}
                   reference={classroom.id}
-                  title="The marker"
-                  name={JSON.stringify(latLng)}
+                  title="The marker" //this.state.prop.name
+                  name={JSON.stringify(latLng)} //string vacio
                 />
               );
             })}

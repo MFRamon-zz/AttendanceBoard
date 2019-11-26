@@ -5,12 +5,30 @@ import Map from '../../components/Map/Map'
 import FloatingActionButton from '../../components/PButton/PButton'
 
 class Dashboard extends Component {
+
+    state = {
+        profesor: {
+            name:"default",
+            position:{
+                lat: 21.152294,
+                lng: -101.711238
+            }
+        }
+    }
+
+    showTeacherGeofence = params => {
+        //console.log("PARAMS: ", params)
+        // const prof = params
+        this.setState({profesor: params}, ()=> console.log("Dashboard: ", this.state.profesor))
+    }
+
     render() {
         return (
             <Fragment>
                 <Header/>
-                <Sidebar/>
-                <Map />
+                <Sidebar showTeacherGeofence={this.showTeacherGeofence}/>
+                {/* <Map profesor={{name:"pali",coordinates:{lat:21.152294,lng:-101.711238}}} /> */}
+                <Map profesor={this.state.profesor} />
                 <FloatingActionButton/>
             </Fragment>
         );

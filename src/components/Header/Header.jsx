@@ -51,7 +51,7 @@ const Header = (props) => {
                         Administration Panel
                     </Typography>
                     <Button onClick={handleMenu}>
-                        <Avatar button alt="Remy Sharp" src="http://2.bp.blogspot.com/-y6gRRHzE1aI/UkV3Do-lcaI/AAAAAAAAWUc/_5BwPJChM0Y/s1600/Wallpaper+Pelicula+-+Spiderman+%25284%2529.jpg"/>
+                        <Avatar button alt="Remy Sharp" src="https://www.showplacerents.com/img/user-placeholder.png"/>
                     </Button>
                         <Menu
                             id="menu-appbar"
