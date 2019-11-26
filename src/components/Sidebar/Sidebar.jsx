@@ -18,7 +18,7 @@ import {getDay, getHours } from '../../helpers/time'
 const drawerWidth = 280;
 
 
-const Sidebar = ({data}) => {
+const Sidebar = ({showTeacherGeofence}) => {
 
 
   const classes = useStyles();
@@ -33,7 +33,8 @@ const Sidebar = ({data}) => {
   const [selected, setSelected] = useState(null);
 
   useState( async () => {
-    const info = await getActiveTeachers(getDay(), getHours());
+    //const info = await getActiveTeachers(getDay(), getHours());
+    const info = await getActiveTeachers('monday', 14);
     setState({profesors: info})
   })
 
@@ -59,6 +60,8 @@ const Sidebar = ({data}) => {
     setSelected(position);
     setState({profesors: state.profesors})
     console.log("Hooks state: ", state)
+    const param = state.profesors[position]
+    showTeacherGeofence(param)
   }
 
   return (

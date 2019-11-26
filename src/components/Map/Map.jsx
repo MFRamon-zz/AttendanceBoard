@@ -27,6 +27,8 @@ const coords = {
   lng: -101.711238
 };
 
+
+
 export class MapContainer extends Component {
   handleClearGeofence = () => {
     let lstgeofences = this.state.geofences;
@@ -42,6 +44,7 @@ export class MapContainer extends Component {
       geofences: lstgeofences
     });
   };
+  
   /**
    * Event handler after pressing the Save Fab button next to radio slider.
    * It shows the form and hides the slider radio selector by setting the state of creatingGeofence as false.
@@ -109,6 +112,7 @@ export class MapContainer extends Component {
     };
     this.onMarkerClick = this.onMarkerClick.bind(this);
     // this.onMapClick = this.onMapClick.bind(this);
+    
   }
   /**
    * This method calls for the backend bringing the information of the selected marker (class room).
@@ -164,8 +168,14 @@ export class MapContainer extends Component {
     this.setState({ geofences: allgeofences , profesor});
   }
 
+
   render() {
     const { geofences, loading, error } = this.state;
+    // let _lat = this.props.profesor.position.latitude;
+    // let _lng = this.props.profesor.position.longitude;
+    // const _latLng = { _lat, _lng };
+    
+
     if (this.props.google) {
       return (
         <div>
@@ -228,21 +238,22 @@ export class MapContainer extends Component {
                 ></Circle>
               );
             })}
-
-                <Marker
-                  onClick={this.onMarkerClick}
-                  {...this.props}
-                  //position={latLng}
-                  icon={{
-                    url:
-                      "https://www.showplacerents.com/img/user-placeholder.png",
-                    anchor: new this.props.google.maps.Point(8, 8),
-                    scaledSize: new this.props.google.maps.Size(16, 16)
-                  }}
-                  //reference={classroom.id}
-                  title = {this.props.profesor.name} //this.state.prop.name
-                  //name={JSON.stringify(latLng)} //string vacio
-                />
+            
+            
+            <Marker
+                onClick={this.onMarkerClick}
+                {...this.props}
+                //position={this.props.profesor.position.latitude, this.props.profesor.position.longitude}
+                icon={{
+                  url:
+                    "https://www.showplacerents.com/img/user-placeholder.png",
+                  anchor: new this.props.google.maps.Point(8, 8),
+                  scaledSize: new this.props.google.maps.Size(16, 16)
+                }}
+                //reference={classroom.id}
+                title = {this.props.profesor.name} //this.state.prop.name
+                //name={JSON.stringify(latLng)} //string vacio
+              />
 
             {this.state.geofences.map(marker => {
               const { classroom = { id: "" }, coordinates } = marker;
