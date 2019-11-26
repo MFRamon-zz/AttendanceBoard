@@ -11,7 +11,32 @@ class Dashboard extends Component {
     }
 
     state={
-        data: null
+        
+        data: [ {
+            name: 'Sagrario',
+            active: true,
+            position: [],
+            role: 'teacher',
+            uid: '1',
+            attendance: []
+        },
+        {
+            name: 'Atilano',
+            active: true,
+            position: [],
+            role: 'teacher',
+            uid: '1',
+            attendance: []
+        },
+        {
+            name: 'Palafox',
+            active: true,
+            position: [],
+            role: 'teacher',
+            uid: '3',
+            attendance: []
+        }
+    ]
     }
 
     render() {

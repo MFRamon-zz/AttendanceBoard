@@ -17,6 +17,7 @@ const drawerWidth = 280;
 
 const Sidebar = ({data}) => {
 
+
   const classes = useStyles();
 
   const [state, setState] = useState({
@@ -26,6 +27,7 @@ const Sidebar = ({data}) => {
     ],
     profesor: null
   });
+  const [selected, setSelected] = useState(0);
 
   useState(()=>{
     const info = data
@@ -38,7 +40,7 @@ const Sidebar = ({data}) => {
   //   }
   // })
 
-  const showGeofence = (position, p) => {
+  const showGeofence = (position) => {
     // let profesor = {
     //   id: p,
     //   active: true
@@ -50,7 +52,8 @@ const Sidebar = ({data}) => {
     //   profesors: state.profesors,
     //   profesor: selectedTeacher})
     //setState({ profesors[position].isFocused: true})
-    state.profesors[position].isFocused = true
+    //state.selected = position;
+    setSelected(position);
     setState({profesors: state.profesors})
     console.log("Hooks state: ", state)
   }
@@ -72,7 +75,7 @@ const Sidebar = ({data}) => {
            { state.profesors.map((p, i) => (
             <ListItem onClick={showGeofence.bind(this, i)}> 
               <Profesor name={p.name} image={p.image ? p.image : "https://www.showplacerents.com/img/user-placeholder.png"} 
-              active={state.profesors.isFocused ? state.profesors.isFocused : false} status={true} />
+              active={(selected===i) ? true : false} status={true} />
             </ListItem>
           )) } 
 
