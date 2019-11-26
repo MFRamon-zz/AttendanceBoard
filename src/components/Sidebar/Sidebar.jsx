@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -14,12 +14,45 @@ import Header from '../Header/Header'
 
 const drawerWidth = 280;
 
+
 const Sidebar = ({data}) => {
 
   const classes = useStyles();
 
-  const showGeofence = () => {
+  const [state, setState] = useState({
+    data: null,
+    profesors: [
+      
+    ],
+    profesor: null
+  });
 
+  useState(()=>{
+    const info = data
+    setState({profesors: info})
+  })
+
+  // useEffect(()=>{
+  //   const didMount = () => {
+  //     setState({profesors: data})
+  //   }
+  // })
+
+  const showGeofence = (position, p) => {
+    // let profesor = {
+    //   id: p,
+    //   active: true
+    // }
+    // const info = data
+    // setState({profesors: info})
+    // let selectedTeacher = data[position]
+    // setState({
+    //   profesors: state.profesors,
+    //   profesor: selectedTeacher})
+    //setState({ profesors[position].isFocused: true})
+    state.profesors[position].isFocused = true
+    setState({profesors: state.profesors})
+    console.log("Hooks state: ", state)
   }
 
   return (
@@ -35,20 +68,16 @@ const Sidebar = ({data}) => {
         <div className={classes.toolbar} />
         <List>
 
-          { data.map((p, i) => (
-            <ListItem> 
-              <Profesor name={p.name} image={p.image} active={true} status={true}/>
+
+           { state.profesors.map((p, i) => (
+            <ListItem onClick={showGeofence.bind(this, i)}> 
+              <Profesor name={p.name} image={p.image ? p.image : "https://www.showplacerents.com/img/user-placeholder.png"} 
+              active={state.profesors.isFocused ? state.profesors.isFocused : false} status={true} />
             </ListItem>
-          )) }
+          )) } 
 
-          <ListItem>
-            <Profesor active={true} status={true}/>
-          </ListItem>
-          <ListItem>
-            <Profesor status={false}/>
-          </ListItem>
 
-          <ListItem>
+          {/* <ListItem>
             <input
               type="button"
               value="Click"
@@ -67,7 +96,7 @@ const Sidebar = ({data}) => {
           </ListItem>
           <ListItem>
             <input type="button" value="Try" onClick={() => updateGeofence()} />
-          </ListItem>
+          </ListItem> */}
         </List>
       </Drawer>
     </div>
@@ -92,3 +121,4 @@ const useStyles = makeStyles(theme => ({
   },
   toolbar: theme.mixins.toolbar
 }));
+
