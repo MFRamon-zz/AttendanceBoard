@@ -16,7 +16,7 @@ import Chip from "@material-ui/core/Chip";
 import MenuItem from "@material-ui/core/MenuItem";
 
 import * as factories from "../../helpers/factories";
-import { newClassroom, getCourses } from "../../helpers/queries";
+import { getCourses } from "../../helpers/queries";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -49,10 +49,10 @@ const MenuProps = {
 
 let courses = [];
 
-function getStyles(name, personName, theme) {
+function getStyles(name, classroomList, theme) {
   return {
     fontWeight:
-      personName.indexOf(name) === -1
+      classroomList.indexOf(name) === -1
         ? theme.typography.fontWeightRegular
         : theme.typography.fontWeightMedium
   };
@@ -61,17 +61,17 @@ function getStyles(name, personName, theme) {
 export default function DialogForm(props) {
   useState(async () => {
     courses = await getCourses();
-    console.log(courses);
   });
 
-  const [open, setOpen] = React.useState(false);
+  //const [open, setOpen] = React.useState(false);
 
   const classes = useStyles();
   const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [classroomList, setClassroomList] = React.useState([]);
+  const [classroomName, setClassroomName] = React.useState([]);
 
   const handleChange = event => {
-    setPersonName(event.target.value);
+    setClassroomList(event.target.value);
   };
 
   const handleChangeMultiple = event => {
@@ -82,12 +82,9 @@ export default function DialogForm(props) {
         value.push(options[i].value);
       }
     }
-    setPersonName(value);
+    setClassroomList(value);
   };
 
-  const insertClassroom = async () => {
-    await newClassroom(factories.newClassroom("name", []));
-  };
 
   return (
     <div>
@@ -111,7 +108,7 @@ export default function DialogForm(props) {
               labelId="demo-mutiple-chip-label"
               id="demo-mutiple-chip"
               multiple
-              value={personName}
+              value={classroomList}
               onChange={handleChange}
               input={<Input id="select-multiple-chip" />}
               renderValue={selected => (
@@ -125,11 +122,11 @@ export default function DialogForm(props) {
             >
               {courses.map(name => (
                 <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, personName, theme)}
+                  key={name.title}
+                  value={name.title}
+                  style={getStyles(name.title, classroomList, theme)}
                 >
-                  {name}
+                  {name.title}
                 </MenuItem>
               ))}
             </Select>
@@ -140,13 +137,22 @@ export default function DialogForm(props) {
             label="Course Name"
             type="text"
             fullWidth
+            onChange={(event)=>{
+              setClassroomName(event.target.value);
+            }}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={props.handleCancel} color="primary">
             Cancel
           </Button>
-          <Button onClick={props.handleGeofenceComplete} color="primary">
+          <Button onClick={ (p) => {
+            let listofSelectedCourses = {
+              courses: classroomList,
+              name:classroomName
+            }
+            props.handleGeofenceComplete(listofSelectedCourses);
+          }} color="primary">
             Accept
           </Button>
         </DialogActions>

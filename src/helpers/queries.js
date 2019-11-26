@@ -140,7 +140,7 @@ const getCourses = async () => {
   return await db
     .collection("courses")
     .get()
-    .then(snapshot => snapshot.docs.map(doc => doc.data().title));
+    .then(snapshot => snapshot.docs.map(doc => doc.data()));
 };
 
 export {
