@@ -159,8 +159,9 @@ export class MapContainer extends Component {
    * Called before mounting the component Map. It will bring all geofences and save them on the component state.
    **/
   async componentWillMount() {
+    const { profesor } = this.props;
     let allgeofences = await getGeofences();
-    this.setState({ geofences: allgeofences });
+    this.setState({ geofences: allgeofences , profesor});
   }
 
   render() {
@@ -227,6 +228,22 @@ export class MapContainer extends Component {
                 ></Circle>
               );
             })}
+
+                <Marker
+                  onClick={this.onMarkerClick}
+                  {...this.props}
+                  //position={latLng}
+                  icon={{
+                    url:
+                      "https://www.showplacerents.com/img/user-placeholder.png",
+                    anchor: new this.props.google.maps.Point(8, 8),
+                    scaledSize: new this.props.google.maps.Size(16, 16)
+                  }}
+                  //reference={classroom.id}
+                  title = {this.props.profesor.name} //this.state.prop.name
+                  //name={JSON.stringify(latLng)} //string vacio
+                />
+
             {this.state.geofences.map(marker => {
               const { classroom = { id: "" }, coordinates } = marker;
               let lat = coordinates.latitude;
@@ -244,8 +261,8 @@ export class MapContainer extends Component {
                     scaledSize: new this.props.google.maps.Size(16, 16)
                   }}
                   reference={classroom.id}
-                  title="The marker"
-                  name={JSON.stringify(latLng)}
+                  title="The marker" //this.state.prop.name
+                  name={JSON.stringify(latLng)} //string vacio
                 />
               );
             })}

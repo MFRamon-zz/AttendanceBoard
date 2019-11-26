@@ -12,6 +12,9 @@ import { updateGeofence } from "../../helpers/queries";
 import Profesor from '../Professor/Professor';
 import Header from '../Header/Header'
 
+import {getActiveTeachers } from '../../helpers/queries'
+import {getDay, getHours } from '../../helpers/time'
+
 const drawerWidth = 280;
 
 
@@ -27,10 +30,10 @@ const Sidebar = ({data}) => {
     ],
     profesor: null
   });
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState(null);
 
-  useState(()=>{
-    const info = data
+  useState( async () => {
+    const info = await getActiveTeachers(getDay(), getHours());
     setState({profesors: info})
   })
 

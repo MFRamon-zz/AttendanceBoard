@@ -44,7 +44,6 @@ class App extends Component {
           <div>
             <PrivateRoute exact path="/" component={Dashboard} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/professor" component={AddProfessor} />
           </div>
         </Router>
       </AuthProvider>

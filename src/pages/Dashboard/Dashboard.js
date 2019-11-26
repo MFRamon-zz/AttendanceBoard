@@ -6,45 +6,12 @@ import FloatingActionButton from '../../components/PButton/PButton'
 
 class Dashboard extends Component {
 
-    componentDidMount(){
-        //Fecht active professors from firebase
-    }
-
-    state={
-        
-        data: [ {
-            name: 'Sagrario',
-            active: true,
-            position: [],
-            role: 'teacher',
-            uid: '1',
-            attendance: []
-        },
-        {
-            name: 'Atilano',
-            active: true,
-            position: [],
-            role: 'teacher',
-            uid: '1',
-            attendance: []
-        },
-        {
-            name: 'Palafox',
-            active: true,
-            position: [],
-            role: 'teacher',
-            uid: '3',
-            attendance: []
-        }
-    ]
-    }
-
     render() {
         return (
             <Fragment>
                 <Header/>
                 <Sidebar/>
-                <Map />
+                <Map profesor={{name:"pali",coordinates:{latitude:0.0,longitude:0.0}}} />
                 <FloatingActionButton/>
             </Fragment>
         );
