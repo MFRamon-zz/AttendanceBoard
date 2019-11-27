@@ -152,12 +152,10 @@ export class MapContainer extends Component {
    */
 
   insertGeofence = async (param) => {
-    debugger;
     const coordinates = this.state.newGeofence.coordinates;
     const lenght = this.state.newGeofence.lenght;
     const gf = factories.newGeofence(param.id,coordinates.latitude, coordinates.longitude,lenght);
     let res = await newGeofence(gf);
-    console.log(res);
   };
 
   /**
@@ -276,6 +274,7 @@ export class MapContainer extends Component {
               let lat = coordinates.latitude;
               let lng = coordinates.longitude;
               const latLng = { lat, lng };
+              debugger;
               return (
                 <Circle
                   id="geofence"

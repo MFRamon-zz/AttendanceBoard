@@ -148,7 +148,6 @@ const newGeofence = async geofence => {
     .collection("geofences")
     .add(geofence)
     .then(snapshot => {
-      debugger;
       console.log(snapshot)
     });
 };

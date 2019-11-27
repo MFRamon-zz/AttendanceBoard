@@ -26,13 +26,13 @@ const newClassroom = (name, courses) => {
   };
 };
 
-const newGeofence = (classroom, lat, lng, length) => {
+const newGeofence = (classroom, lat, lng, lenght) => {
   const cords = new firebase.firestore.GeoPoint(lat, lng);
   const clsm = firebase.firestore().doc('/classrooms/'+classroom);
   const gf = {
     classroom: clsm,
     coordinates: cords,
-    length
+    lenght
   };
   return gf;
 };
