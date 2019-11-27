@@ -17,6 +17,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 import * as factories from "../../helpers/factories";
 import { getCourses } from "../../helpers/queries";
+import app from "../../config/firebaseConfig";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -74,18 +75,6 @@ export default function DialogForm(props) {
     setClassroomList(event.target.value);
   };
 
-  const handleChangeMultiple = event => {
-    const { options } = event.target;
-    const value = [];
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setClassroomList(value);
-  };
-
-
   return (
     <div>
       <Dialog
@@ -137,7 +126,7 @@ export default function DialogForm(props) {
             label="Course Name"
             type="text"
             fullWidth
-            onChange={(event)=>{
+            onChange={event => {
               setClassroomName(event.target.value);
             }}
           />
@@ -146,13 +135,21 @@ export default function DialogForm(props) {
           <Button onClick={props.handleCancel} color="primary">
             Cancel
           </Button>
-          <Button onClick={ (p) => {
-            let listofSelectedCourses = {
-              courses: classroomList,
-              name:classroomName
-            }
-            props.handleGeofenceComplete(listofSelectedCourses);
-          }} color="primary">
+          <Button
+            onClick={p => {
+              const listRef = classroomList.map(c => {
+                var obj = courses.find(course => course.title === c);
+                return app.firestore().doc(`courses/${obj._id.id}`);
+              });
+
+              let listofSelectedCourses = {
+                courses: listRef,
+                name: classroomName
+              };
+              props.handleGeofenceComplete(listofSelectedCourses);
+            }}
+            color="primary"
+          >
             Accept
           </Button>
         </DialogActions>
