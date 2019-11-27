@@ -59,7 +59,6 @@ const Sidebar = ({showTeacherGeofence}) => {
     //state.selected = position;
     setSelected(position);
     setState({profesors: state.profesors})
-    console.log("Hooks state: ", state)
     const param = state.profesors[position]
     showTeacherGeofence(param)
   }

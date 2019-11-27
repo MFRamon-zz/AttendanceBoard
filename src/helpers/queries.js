@@ -145,9 +145,12 @@ const newClassroom = async classroom => {
  */
 const newGeofence = async geofence => {
   await db
-    .collection("geofence")
+    .collection("geofences")
     .add(geofence)
-    .then(snapshot => console.log(snapshot));
+    .then(snapshot => {
+      debugger;
+      console.log(snapshot)
+    });
 };
 
 
@@ -180,9 +183,7 @@ const removeCollectionsIfField = async (collection,field,value) => {
     .where(field,"==", "hola")
     .get()
     .then( (snapshot) => {
-      debugger;
       let sn = snapshot.docs.map(doc => doc.ref.delete());
-
   });  
     // .collection(collection)
     // .where(field,"==",value)

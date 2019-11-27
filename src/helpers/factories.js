@@ -27,11 +27,14 @@ const newClassroom = (name, courses) => {
 };
 
 const newGeofence = (classroom, lat, lng, length) => {
-  return {
-    classroom: firebase.firestore.DocumentReference(`/classroom/${classroom}`),
-    coordinates: firebase.firestore.GeoPoint(lat, lng),
+  const cords = new firebase.firestore.GeoPoint(lat, lng);
+  const clsm = firebase.firestore().doc('/classrooms/'+classroom);
+  const gf = {
+    classroom: clsm,
+    coordinates: cords,
     length
   };
+  return gf;
 };
 
 const newCourse = (title, teacherRef, schedule) => {

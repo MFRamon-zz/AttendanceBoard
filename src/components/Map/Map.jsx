@@ -152,10 +152,11 @@ export class MapContainer extends Component {
    */
 
   insertGeofence = async (param) => {
+    debugger;
     const coordinates = this.state.newGeofence.coordinates;
     const lenght = this.state.newGeofence.lenght;
-    debugger;
-    let res = await newGeofence(factories.newGeofence(param.id,coordinates.latitude, coordinates.longitude,lenght));
+    const gf = factories.newGeofence(param.id,coordinates.latitude, coordinates.longitude,lenght);
+    let res = await newGeofence(gf);
     console.log(res);
   };
 
@@ -169,7 +170,6 @@ export class MapContainer extends Component {
     try {
       let res = await getClassroomById(Id);
       let clasroom = res.name;
-      console.log(res);
       // this will re render the view with new data
       this.setState({
         selectedMarker: { description: clasroom, title: "Clasroom" },
@@ -219,7 +219,6 @@ export class MapContainer extends Component {
   }
   async delete(){
     let res = await removeCollectionsIfField("classrooms","name","hola");
-    console.log(res);
   }
   render() {
     const { geofences, loading, error } = this.state;
@@ -262,9 +261,6 @@ export class MapContainer extends Component {
                     newGeofence: geofence,
                     geofences: lstGeofences,
                     drawingGeofence: true
-                  },
-                  () => {
-                    console.log(this.state);
                   }
                 );
               }
@@ -386,9 +382,7 @@ export class MapContainer extends Component {
                       coordinates: coordinates
                     };
                     lstgeofences.push(_newGeofence);
-                    this.setState({ newGeofence: _newGeofence }, () => {
-                      console.log(this.state.newGeofence);
-                    });
+                    this.setState({ newGeofence: _newGeofence });
                   }}
                 />
                 <Typography component="p">Geofence Radius</Typography>
