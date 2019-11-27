@@ -133,14 +133,21 @@ const newClassroom = async classroom => {
   await db
     .collection("classrooms")
     .add(classroom)
-    .then(snapshot => console.log(snapshot));
+    .then(snapshot => snapshot.id);
 };
 
 const getCourses = async () => {
   return await db
     .collection("courses")
     .get()
-    .then(snapshot => snapshot.docs.map(doc => doc.data()));
+    .then(snapshot =>
+      snapshot.docs.map(doc => {
+        return {
+          ...doc.data(),
+          _id: doc.ref
+        };
+      })
+    );
 };
 
 export {
