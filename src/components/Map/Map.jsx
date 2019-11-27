@@ -9,8 +9,10 @@ import {
 import {
   getGeofences,
   updateGeofence,
-  getClassroomById
+  getClassroomById,
+  newClassroom
 } from "../../helpers/queries";
+import * as factories from "../../helpers/factories";
 import Slider from "@material-ui/core/Slider";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
@@ -41,7 +43,11 @@ export class MapContainer extends Component {
         lenght: 0,
         coordinates: { latitude: null, longitude: null }
       },
-      geofences: lstgeofences
+      geofences: lstgeofences,
+      newClassroom:{
+        courses:[],
+
+      }
     });
   };
   
@@ -71,13 +77,23 @@ export class MapContainer extends Component {
    * Event handler after pressing Accept button inside Dialog Form modal.
    * It hides the form but keeps the UI ready to modify the new geofence.
    **/
-  handleGeofenceComplete = () => {
+  handleGeofenceComplete = (params) => {
     this.setState({
       drawingGeofence: false,
       creatingGeofence: false,
-      dialogForm: { open: false }
-    });
-    //TODO: clear the map and call the method that will paint all geofences from db.
+      dialogForm: { open: false },
+      newClassroom:{ courses: params.courses, name: params.name }
+    },()=>{
+      this.insertClassroom();
+    });  
+  };
+
+  insertClassroom = async () => {
+    let name = this.state.newClassroom.name;
+    let courses = this.state.newClassroom.courses;
+    debugger;
+    let res = await newClassroom(factories.newClassroom(name,courses));
+    console.log(res);
   };
 
   constructor(props) {
