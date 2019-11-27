@@ -274,7 +274,6 @@ export class MapContainer extends Component {
               let lat = coordinates.latitude;
               let lng = coordinates.longitude;
               const latLng = { lat, lng };
-              debugger;
               return (
                 <Circle
                   id="geofence"

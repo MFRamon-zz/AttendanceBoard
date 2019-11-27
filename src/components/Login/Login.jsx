@@ -26,6 +26,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import ErrorIcon from '@material-ui/icons/Error';
 
 import avatarIvan from "../../assets/ivan.jpeg";
 import avatarRamon from "../../assets/ramon.png";
@@ -86,6 +90,17 @@ const Login = ({ history }) => {
   const classes = useStyles();
   const [dense, setDense] = React.useState(false);
 
+  const [open, setOpen] = React.useState(false);
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   const handleLogin = useCallback(
     async event => {
       event.preventDefault();
@@ -94,7 +109,13 @@ const Login = ({ history }) => {
         await app
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
-        history.push("/");
+        let date_ob = new Date();
+        console.log(date_ob);
+        if (date_ob.getHours() >= 8 && date_ob.getHours() <= 21) {
+          history.push("/");
+        } else {
+          handleClick();
+        }
       } catch (error) {
         alert(error);
       }
@@ -110,13 +131,13 @@ const Login = ({ history }) => {
   });
 
   const authors = [
-    { name: 'Ibarra Pacheco Carlos Ivan', image: avatarIvan },
-    { name: 'Manrique Figueroa Ramon', image: avatarRamon },
-    { name: 'Aldana Chavez Gonzalo', image: avatarGonzalo },
-    { name: 'Avinia Luna Juan Carlos', image: avatarAvinia }
+    { name: "Ibarra Pacheco Carlos Ivan", image: avatarIvan },
+    { name: "Manrique Figueroa Ramon", image: avatarRamon },
+    { name: "Aldana Chavez Gonzalo", image: avatarGonzalo },
+    { name: "Avinia Luna Juan Carlos", image: avatarAvinia }
   ];
 
-  const authorsList = authors.map((author) => {
+  const authorsList = authors.map(author => {
     return (
       <ListItem style={{ paddingBottom: 0 }} className={classes.credits}>
         <ListItemAvatar>
@@ -151,7 +172,8 @@ const Login = ({ history }) => {
           alignItems="center"
           variant="h1"
           className={classes.title}
-          style={{ paddingBottom: 40 }}>
+          style={{ paddingBottom: 40 }}
+        >
           Board
         </Typography>
         <Typography
@@ -159,7 +181,8 @@ const Login = ({ history }) => {
           alignItems="center"
           variant="h6"
           className={classes.credits}
-          style={{ paddingBottom: 20 }}>
+          style={{ paddingBottom: 20 }}
+        >
           Crafted and Built by:
         </Typography>
 
@@ -221,12 +244,42 @@ const Login = ({ history }) => {
               fullWidth
               variant="contained"
               style={{ backgroundColor: "#6200ea", color: "white" }}
-              className="btn-login">
+              className="btn-login"
+            >
               LOG IN
             </Button>
           </form>
         </Paper>
       </Grid>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right"
+        }}
+        open={open}
+        autoHideDuration={9000}
+        onClose={handleClose}
+        ContentProps={{
+          "aria-describedby": "message-id"
+        }}
+        message={
+          <span id="message-id">
+            <ErrorIcon />
+            This system is only available at School times. Come back anytime between 8am - 9pm.
+          </span>
+        }
+        action={[
+          <IconButton
+            key="close"
+            aria-label="close"
+            color="inherit"
+            className={classes.close}
+            onClick={handleClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        ]}
+      />
     </Grid>
   );
 };
