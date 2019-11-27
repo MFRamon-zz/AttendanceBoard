@@ -10,7 +10,8 @@ import {
   getGeofences,
   newGeofence,
   getClassroomById,
-  newClassroom
+  newClassroom,
+  removeCollectionsIfField
 } from "../../helpers/queries";
 import * as factories from "../../helpers/factories";
 import Slider from "@material-ui/core/Slider";
@@ -29,6 +30,7 @@ const coords = {
   lng: -101.711238
 };
 
+let responseIdClassroom;
 
 
 export class MapContainer extends Component {
@@ -116,28 +118,30 @@ export class MapContainer extends Component {
    * Event handler after pressing Accept button inside Dialog Form modal.
    * It hides the form but keeps the UI ready to modify the new geofence.
    **/
-  handleGeofenceComplete = (params) => {
+  res = {};
+
+  handleGeofenceComplete = async(params) => {
+    let res = await this.insertClassroom(params);
+    this.insertGeofence(res);
     this.setState({
       drawingGeofence: false,
       creatingGeofence: false,
       dialogForm: { open: false },
-      newClassroom:{ courses: params.courses, name: params.name }
-    },()=>{
-      this.insertClassroom();
-      this.insertGeofence();
-    });  
+      //newClassroom:{ courses: params.courses, name: params.name }
+    });
+
   };
+
+
   /**
    * This method will be called after pressing the Accept button inside the DialogForm modal.
    *  It will take the state values, generate a proper classroom object 
    *  and send it as parameter to newClassroom method to insert it in firebase.
    */
-  insertClassroom = async () => {
-    let name = this.state.newClassroom.name;
-    let courses = this.state.newClassroom.courses;
-    debugger;
-    let res = await newClassroom(factories.newClassroom(name,courses));
-    console.log(res);
+  insertClassroom = async (params) => {
+    let name = params.name;
+    let courses = params.courses;
+    return await newClassroom(factories.newClassroom(name,courses));
   };
   /**
    *  This method will be called after pressing the Accept button inside the DialogForm modal,
@@ -147,12 +151,11 @@ export class MapContainer extends Component {
    *  and send it as parameter to newGeofence method to insert it in firebase .
    */
 
-  insertGeofence = async () => {
-    debugger;
-    let coordinates = this.state.newGeofence.coordinates;
-    let lenght = this.state.newGeofence.lenght;
-    //let res = await newGeofence(factories.newGeofence("reference of classroom here",coordinates.latitude, coordinates.longitude,lenght));
-    //console.log(res);
+  insertGeofence = async (param) => {
+    const coordinates = this.state.newGeofence.coordinates;
+    const lenght = this.state.newGeofence.lenght;
+    const gf = factories.newGeofence(param.id,coordinates.latitude, coordinates.longitude,lenght);
+    let res = await newGeofence(gf);
   };
 
   /**
@@ -165,8 +168,6 @@ export class MapContainer extends Component {
     try {
       let res = await getClassroomById(Id);
       let clasroom = res.name;
-      debugger;
-      console.log(res);
       // this will re render the view with new data
       this.setState({
         selectedMarker: { description: clasroom, title: "Clasroom" },
@@ -214,7 +215,9 @@ export class MapContainer extends Component {
     //let allgeofences = await getGeofences();
     this.setState({ profesor});
   }
-
+  async delete(){
+    let res = await removeCollectionsIfField("classrooms","name","hola");
+  }
   render() {
     const { geofences, loading, error } = this.state;
     // let _lat = this.props.profesor.position.latitude;
@@ -256,9 +259,6 @@ export class MapContainer extends Component {
                     newGeofence: geofence,
                     geofences: lstGeofences,
                     drawingGeofence: true
-                  },
-                  () => {
-                    console.log(this.state);
                   }
                 );
               }
@@ -293,7 +293,6 @@ export class MapContainer extends Component {
            
             (<Marker
                 onClick={(props, marker, e)=>{
-                  debugger;
                   this.setState({
                     mapCenter:{latLngProfMarker},
                     selectedMarker: { description: props.title, title: props.name },
@@ -381,9 +380,7 @@ export class MapContainer extends Component {
                       coordinates: coordinates
                     };
                     lstgeofences.push(_newGeofence);
-                    this.setState({ newGeofence: _newGeofence }, () => {
-                      console.log(this.state.newGeofence);
-                    });
+                    this.setState({ newGeofence: _newGeofence });
                   }}
                 />
                 <Typography component="p">Geofence Radius</Typography>
