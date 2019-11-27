@@ -143,6 +143,30 @@ const getCourses = async () => {
     .then(snapshot => snapshot.docs.map(doc => doc.data()));
 };
 
+
+/**
+ * Removes a document from the specified collection.
+ *
+ * @param {string} collection Name of the collection of the firebase db.
+ * @param {string} field The field of that document that we want to evaluate with the conditional.
+ * @param {string} value Value of the field we want to evaluate. 
+ */
+const removeCollectionsIfField = async (collection,field,value) => {
+  return await db
+    .collection(collection)
+    .where(field,"==", "hola")
+    .get()
+    .then( (snapshot) => {
+      debugger;
+      let sn = snapshot.docs.map(doc => doc.ref.delete());
+
+  });  
+    // .collection(collection)
+    // .where(field,"==",value)
+    // .delete()
+    // .then(snapshot => snapshot.data());
+};
+
 export {
   getGeofences,
   getClassrooms,
@@ -153,5 +177,6 @@ export {
   getActiveTeachers,
   addCourses,
   newClassroom,
-  getCourses
+  getCourses,
+  removeCollectionsIfField
 };
