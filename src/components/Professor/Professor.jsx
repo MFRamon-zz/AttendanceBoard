@@ -7,6 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 const Profesor = ({active, image, name, status }) => {
+    if(name){
+        if(name.length > 18){
+            name = name.substr(0, 18)
+            name = name+"..."
+        }
+    } else {
+        name = null
+    }
     return (
         <Fragment>
             <Card className={active ? "card-container-active" : "card-container"}>
