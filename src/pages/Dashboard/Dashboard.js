@@ -17,8 +17,6 @@ class Dashboard extends Component {
     }
 
     showTeacherGeofence = params => {
-        //console.log("PARAMS: ", params)
-        // const prof = params
         this.setState({profesor: params}, ()=> console.log("Dashboard: ", this.state.profesor))
     }
 

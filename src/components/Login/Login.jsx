@@ -110,7 +110,6 @@ const Login = ({ history }) => {
           .auth()
           .signInWithEmailAndPassword(email.value, password.value);
         let date_ob = new Date();
-        console.log(date_ob);
         if (date_ob.getHours() >= 8 && date_ob.getHours() <= 21) {
           history.push("/");
         } else {
