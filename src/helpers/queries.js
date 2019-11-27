@@ -133,14 +133,35 @@ const newClassroom = async classroom => {
   await db
     .collection("classrooms")
     .add(classroom)
+    .then(snapshot => snapshot.id);
+};
+
+/**
+ * Creates a new geofence in the firestore database.
+ *
+ * @param {object} geofence Javascript object with geofence information
+ */
+const newGeofence = async geofence => {
+  await db
+    .collection("geofence")
+    .add(geofence)
     .then(snapshot => console.log(snapshot));
 };
+
+
 
 const getCourses = async () => {
   return await db
     .collection("courses")
     .get()
-    .then(snapshot => snapshot.docs.map(doc => doc.data()));
+    .then(snapshot =>
+      snapshot.docs.map(doc => {
+        return {
+          ...doc.data(),
+          _id: doc.ref
+        };
+      })
+    );
 };
 
 
@@ -177,6 +198,7 @@ export {
   getActiveTeachers,
   addCourses,
   newClassroom,
+  newGeofence,
   getCourses,
   removeCollectionsIfField
 };

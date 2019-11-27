@@ -10,7 +10,8 @@ import {
   getGeofences,
   newGeofence,
   getClassroomById,
-  newClassroom
+  newClassroom,
+  removeCollectionsIfField
 } from "../../helpers/queries";
 import * as factories from "../../helpers/factories";
 import Slider from "@material-ui/core/Slider";
@@ -29,6 +30,7 @@ const coords = {
   lng: -101.711238
 };
 
+let responseIdClassroom;
 
 
 export class MapContainer extends Component {
@@ -122,10 +124,11 @@ export class MapContainer extends Component {
       creatingGeofence: false,
       dialogForm: { open: false },
       newClassroom:{ courses: params.courses, name: params.name }
-    },()=>{
-      this.insertClassroom();
-      this.insertGeofence();
-    });  
+    }, async () =>{
+      this.insertClassroom().then(()=>{
+        this.insertGeofence();
+      });  
+    });
   };
   /**
    * This method will be called after pressing the Accept button inside the DialogForm modal.
@@ -135,9 +138,7 @@ export class MapContainer extends Component {
   insertClassroom = async () => {
     let name = this.state.newClassroom.name;
     let courses = this.state.newClassroom.courses;
-    debugger;
-    let res = await newClassroom(factories.newClassroom(name,courses));
-    console.log(res);
+    responseIdClassroom = await newClassroom(factories.newClassroom(name,courses));
   };
   /**
    *  This method will be called after pressing the Accept button inside the DialogForm modal,
@@ -149,10 +150,10 @@ export class MapContainer extends Component {
 
   insertGeofence = async () => {
     debugger;
-    let coordinates = this.state.newGeofence.coordinates;
-    let lenght = this.state.newGeofence.lenght;
-    //let res = await newGeofence(factories.newGeofence("reference of classroom here",coordinates.latitude, coordinates.longitude,lenght));
-    //console.log(res);
+    const coordinates = this.state.newGeofence.coordinates;
+    const lenght = this.state.newGeofence.lenght;
+    let res = await newGeofence(factories.newGeofence(responseIdClassroom,coordinates.latitude, coordinates.longitude,lenght));
+    console.log(res);
   };
 
   /**
@@ -165,7 +166,6 @@ export class MapContainer extends Component {
     try {
       let res = await getClassroomById(Id);
       let clasroom = res.name;
-      debugger;
       console.log(res);
       // this will re render the view with new data
       this.setState({
@@ -214,7 +214,10 @@ export class MapContainer extends Component {
     //let allgeofences = await getGeofences();
     this.setState({ profesor});
   }
-
+  async delete(){
+    let res = await removeCollectionsIfField("classrooms","name","hola");
+    console.log(res);
+  }
   render() {
     const { geofences, loading, error } = this.state;
     // let _lat = this.props.profesor.position.latitude;
@@ -293,7 +296,6 @@ export class MapContainer extends Component {
            
             (<Marker
                 onClick={(props, marker, e)=>{
-                  debugger;
                   this.setState({
                     mapCenter:{latLngProfMarker},
                     selectedMarker: { description: props.title, title: props.name },
