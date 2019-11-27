@@ -130,10 +130,12 @@ const addCourses = async course => {
  * @param {object} classroom Javascript object with classroom information
  */
 const newClassroom = async classroom => {
-  await db
+  return await db
     .collection("classrooms")
     .add(classroom)
-    .then(snapshot => snapshot.id);
+    .then(snapshot =>{
+      return snapshot
+    });
 };
 
 /**

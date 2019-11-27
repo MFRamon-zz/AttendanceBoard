@@ -118,27 +118,30 @@ export class MapContainer extends Component {
    * Event handler after pressing Accept button inside Dialog Form modal.
    * It hides the form but keeps the UI ready to modify the new geofence.
    **/
-  handleGeofenceComplete = (params) => {
+  res = {};
+
+  handleGeofenceComplete = async(params) => {
+    let res = await this.insertClassroom(params);
+    this.insertGeofence(res);
     this.setState({
       drawingGeofence: false,
       creatingGeofence: false,
       dialogForm: { open: false },
-      newClassroom:{ courses: params.courses, name: params.name }
-    }, async () =>{
-      this.insertClassroom().then(()=>{
-        this.insertGeofence();
-      });  
+      //newClassroom:{ courses: params.courses, name: params.name }
     });
+
   };
+
+
   /**
    * This method will be called after pressing the Accept button inside the DialogForm modal.
    *  It will take the state values, generate a proper classroom object 
    *  and send it as parameter to newClassroom method to insert it in firebase.
    */
-  insertClassroom = async () => {
-    let name = this.state.newClassroom.name;
-    let courses = this.state.newClassroom.courses;
-    responseIdClassroom = await newClassroom(factories.newClassroom(name,courses));
+  insertClassroom = async (params) => {
+    let name = params.name;
+    let courses = params.courses;
+    return await newClassroom(factories.newClassroom(name,courses));
   };
   /**
    *  This method will be called after pressing the Accept button inside the DialogForm modal,
@@ -148,11 +151,11 @@ export class MapContainer extends Component {
    *  and send it as parameter to newGeofence method to insert it in firebase .
    */
 
-  insertGeofence = async () => {
-    debugger;
+  insertGeofence = async (param) => {
     const coordinates = this.state.newGeofence.coordinates;
     const lenght = this.state.newGeofence.lenght;
-    let res = await newGeofence(factories.newGeofence(responseIdClassroom,coordinates.latitude, coordinates.longitude,lenght));
+    debugger;
+    let res = await newGeofence(factories.newGeofence(param.id,coordinates.latitude, coordinates.longitude,lenght));
     console.log(res);
   };
 
