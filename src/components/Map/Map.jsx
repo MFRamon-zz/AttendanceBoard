@@ -8,7 +8,7 @@ import {
 } from "google-maps-react";
 import {
   getGeofences,
-  updateGeofence,
+  newGeofence,
   getClassroomById,
   newClassroom
 } from "../../helpers/queries";
@@ -32,6 +32,46 @@ const coords = {
 
 
 export class MapContainer extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      mapCenter:{},
+      google: null,
+      newGeofence: {
+        lenght: 20,
+        coordinates: {
+          latitude: 0,
+          longitude: 0
+        }
+      },
+      geofences: [],
+      drawingGeofence: false,
+      creatingGeofence: false,
+      showingInfoWindow: false,
+      activeMarker: {},
+      selectedPlace: {},
+      dialogForm: {
+        open: false
+      },
+      loading: false,
+      error: {
+        status: false,
+        message: ""
+      },
+      selectedMarker: {
+        title: "Clasroom",
+        description: "body"
+      }
+    };
+    this.onMarkerClick = this.onMarkerClick.bind(this);
+    // this.onMapClick = this.onMapClick.bind(this);
+  }
+
+  /**
+   * This method will be called after pressing the Clear Geofence button in geofence drawing mode.
+   *  It will remove the geofence added to the map and reset it's state. 
+   */
   handleClearGeofence = () => {
     let lstgeofences = this.state.geofences;
     lstgeofences.pop();
@@ -46,7 +86,6 @@ export class MapContainer extends Component {
       geofences: lstgeofences,
       newClassroom:{
         courses:[],
-
       }
     });
   };
@@ -85,9 +124,14 @@ export class MapContainer extends Component {
       newClassroom:{ courses: params.courses, name: params.name }
     },()=>{
       this.insertClassroom();
+      this.insertGeofence();
     });  
   };
-
+  /**
+   * This method will be called after pressing the Accept button inside the DialogForm modal.
+   *  It will take the state values, generate a proper classroom object 
+   *  and send it as parameter to newClassroom method to insert it in firebase.
+   */
   insertClassroom = async () => {
     let name = this.state.newClassroom.name;
     let courses = this.state.newClassroom.courses;
@@ -95,42 +139,22 @@ export class MapContainer extends Component {
     let res = await newClassroom(factories.newClassroom(name,courses));
     console.log(res);
   };
+  /**
+   *  This method will be called after pressing the Accept button inside the DialogForm modal,
+   *  and after the classroom since its needed the clasroom in the database in order to get the right reference.
+   * 
+   *  It will take the state values, generate a proper geofence object 
+   *  and send it as parameter to newGeofence method to insert it in firebase .
+   */
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      mapCenter:{},
-      google: null,
-      newGeofence: {
-        lenght: 20,
-        coordinates: {
-          latitude: 0,
-          longitude: 0
-        }
-      },
-      geofences: [],
-      drawingGeofence: false,
-      creatingGeofence: false,
-      showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {},
-      dialogForm: {
-        open: false
-      },
-      loading: false,
-      error: {
-        status: false,
-        message: ""
-      },
-      selectedMarker: {
-        title: "Clasroom",
-        description: "body"
-      }
-    };
-    this.onMarkerClick = this.onMarkerClick.bind(this);
-    // this.onMapClick = this.onMapClick.bind(this);
-    
-  }
+  insertGeofence = async () => {
+    debugger;
+    let coordinates = this.state.newGeofence.coordinates;
+    let lenght = this.state.newGeofence.lenght;
+    //let res = await newGeofence(factories.newGeofence("reference of classroom here",coordinates.latitude, coordinates.longitude,lenght));
+    //console.log(res);
+  };
+
   /**
    * This method calls for the backend bringing the information of the selected marker (class room).
    * @param {string} Id The Id reference we got from the geofence firebase object.
