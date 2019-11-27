@@ -126,7 +126,7 @@ export default function DialogForm(props) {
             label="Course Name"
             type="text"
             fullWidth
-            onChange={(event)=>{
+            onChange={event => {
               setClassroomName(event.target.value);
             }}
           />
@@ -149,7 +149,8 @@ export default function DialogForm(props) {
               props.handleGeofenceComplete(listofSelectedCourses);
             }}
             color="primary"
-          >Accept
+          >
+            Accept
           </Button>
         </DialogActions>
       </Dialog>
