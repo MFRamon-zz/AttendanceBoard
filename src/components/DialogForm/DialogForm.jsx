@@ -123,7 +123,7 @@ export default function DialogForm(props) {
           <TextField
             margin="dense"
             id="name"
-            label="Course Name"
+            label="Classroom Name"
             type="text"
             fullWidth
             onChange={event => {

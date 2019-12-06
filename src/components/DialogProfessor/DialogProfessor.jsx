@@ -33,11 +33,15 @@ export default function DialogProfessor(props) {
   const [name, setName] = React.useState('');
   
   async function insertTeacher(name,number,role) {
-    const email = createEmail(name, number);
-    const uid = await CreateUser(email, number);
-    await newTeacher(
-      factories.newTeacher(name, role, uid)
-    );
+    try{
+      const email = createEmail(name, number);
+      const uid = await CreateUser(email, number);
+      await newTeacher(
+        factories.newTeacher(name, role, uid)
+      );    
+    }catch(Exception){
+      alert("The password must be at least 6 digit long.");
+    }
   }
 
   const handleNameChange = (event) => {

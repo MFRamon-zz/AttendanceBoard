@@ -19,7 +19,7 @@ const drawerWidth = 280;
 
 
 const Sidebar = ({showTeacherGeofence}) => {
-
+  debugger;
 
   const classes = useStyles();
 
@@ -33,11 +33,11 @@ const Sidebar = ({showTeacherGeofence}) => {
   const [selected, setSelected] = useState(null);
 
   useState( async () => {
-    //const info = await getActiveTeachers(getDay(), getHours());
-    const info = await getActiveTeachers('monday', 14);
+    const info = await getActiveTeachers(getDay(), getHours());
+    //const info = await getActiveTeachers('wednesday', 14);
     setState({profesors: info})
   })
-
+  
   // useEffect(()=>{
   //   const didMount = () => {
   //     setState({profesors: data})
