@@ -11,6 +11,9 @@
 # production
 /build
 
+# For saving API KEYS
+.env
+
 # misc
 .DS_Store
 .env.local
